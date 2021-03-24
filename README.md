@@ -10,6 +10,7 @@ that are not desktops.
 - Figma
 - React.js
 - MongoDB
+- Node.js
 
 ## Visual Designs
 
