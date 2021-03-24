@@ -1,2 +1,1 @@
-# qcfirst
-Semester Project 355
+# CunySecond
