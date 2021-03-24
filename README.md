@@ -34,3 +34,17 @@ that are not desktops.
 
 ### Student Enrollment 
 ![alt text](VisualDesigns/StudentEnrollment.png)
+
+### Create Class
+![alt text](VisualDesigns/CreateClass.png)
+
+### Professor HomePage
+![alt text](VisualDesigns/InstructorHomepage.png)
+
+### StudentEnrollment
+![alt text](VisualDesigns/StudentEnrollment.png)
+
+### StudentHomepage
+![alt text](VisualDesigns/StudentHomepage.png)
+
+
