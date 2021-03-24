@@ -14,4 +14,4 @@ that are not desktops.
 ## Visual Designs
 
 ### Login Page
-![alt text](../Visual Designs/Login.png)
+![alt text](/Visual Designs/Login.png)
