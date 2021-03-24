@@ -22,3 +22,15 @@ that are not desktops.
 
 ### Forgot UserName/Password page
 ![alt text](VisualDesigns/UserForgot.png)
+
+### Student Homepage
+![alt text](VisualDesigns/StudentHomepage.png)
+
+### Teacher Homepage
+![alt text](VisualDesigns/InstrucorHomepage.png)
+
+### Teacher - Create a Class
+![alt text](VisualDesigns/CreateClass.png)
+
+### Student Enrollment 
+![alt text](VisualDesigns/StudentEnrollment.png)
