@@ -15,3 +15,9 @@ that are not desktops.
 
 ### Login Page
 ![alt text](VisualDesigns/Login.png)
+
+### New User Page
+![alt text](VisualDesigns/NewUser.png)
+
+### Forgot UserName/Password page
+![alt text](VisualDesigns/UserForgot.png)
