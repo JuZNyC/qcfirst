@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Create a Class</title>
+        <meta name="description" content="Faculty page to create a class">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    </head>
+    <body>
+      
+      <!-- Navbar and display page -->
+      <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid justify-content-start">
+            <a href="facultyHomepage.html" class="navbar-brand"><img src="images/qclogo.png" alt="qc logo" title="logo"></a>
+            <h1 class="display-1" style="color: white;">CUNY Second</h1>
+        </div>
+      </nav>
+
+
+      <!-- Based on examples from bootstrap form docs. Src: https://getbootstrap.com/docs/4.0/components/forms/ and https://getbootstrap.com/docs/5.0/forms --> 
+      <!-- Main Form -->
+      <div class="container" style="background-color:antiquewhite; padding: 30px;height:-webkit-fill-available;">
+        <form class="needs-validation" novalidate>
+            <div class="row g-3 needs-validation">
+              <div class="col-md-4 mb-3">
+                <label for="className">Class name</label>
+                <input type="text" class="form-control" id="className" placeholder="Class name" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="classCapacity">Capacity</label>
+                <input type="text" class="form-control" id="classCapacity" placeholder="Capacity" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="courseNum">Course Number</label>
+                <input type="text" class="form-control" id="courseNum" placeholder="Course Number" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-4 mb-3">
+                <label for="courseInstructor">Instructor</label>
+                <input type="text" class="form-control" id="courseInstructor" placeholder="Instructor" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="dept">Department</label>
+                <input type="text" class="form-control" id="dept" placeholder="Department" required>
+                
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="semester">Semester</label>
+                <input type="text" class="form-control" id="semester" placeholder="Semester" required>
+                
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="input-group">
+                        <textarea class="form-control" id="courseDesc" rows="3" placeholder="Enter course description here" required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-md-3 offset-md-3">
+                  <label for="enrDt" class="lead">Choose the final date to enroll:</label>
+                </div>
+                <div class="col-md-3">
+                  <input type="date" id="enrDt">
+                </div>
+            </div>
+
+
+            <div class="row">
+              <p class="lead" style="margin-top: 10px;">Select the days of the week your class will take place</p>
+            </div>
+            <div class="input-group mb-3">
+              <div class="form-check form-check-inline offset-md-2">
+                  <input type="checkbox" class="btn-check" id="moBtn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="moBtn">Mo</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" id="tuBtn" autocomplete="off">
+                <label class="btn btn-outline-primary" for="tuBtn">Tu</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" id="weBtn" autocomplete="off">
+                <label class="btn btn-outline-primary" for="weBtn">We</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" id="thBtn" autocomplete="off">
+                <label class="btn btn-outline-primary" for="thBtn">Th</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="checkbox" class="btn-check" id="frBtn" autocomplete="off">
+                <label class="btn btn-outline-primary" for="frBtn">Fr</label>
+              </div>
+
+              <div class="group" role="group" aria-label="Basic example" style="margin-top: 10px;">
+                <label for="fromTime" class="lead">From: </label><input type="time" id="fromTime" class="col-md-4" required>
+                <label for="toTime" class="lead">To: </label><input type="time" id="toTime" class="col-md-4" required>
+              </div>
+
+            </div>
+            <div class="row justify-content-md-center">
+              <button class="btn btn-primary" type="submit">Submit form</button>
+            </div>
+            <div class="row justify-content-md-center">
+              <a href="facultyHomepage.html" class="btn btn-danger" style="margin-top:10px">Cancel</a>
+            </div>
+            
+          </form><!-- Based on examples from bootstrap form docs. Src: https://getbootstrap.com/docs/4.0/components/forms/ and https://getbootstrap.com/docs/5.0/forms --> 
+        </div>
+
+
+
+
+    </body>
+</html>
