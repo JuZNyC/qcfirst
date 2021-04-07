@@ -13,7 +13,7 @@ that are not desktops.
 - MongoDB
 - Node.js
 
-##Deliverable 2 update
+## Deliverable 2 update
 Jun Zheng worked on the index, newUser, and lostUserPass<br />
 Eli Szafranski worked on classInfo, enroll, CreateAClass, facultyHomepage, and studentHomepage
 
