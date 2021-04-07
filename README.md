@@ -1,16 +1,21 @@
 # CunySecond
 
 ## Purpose
-The purpose of the site is to simnplify how and improve upon how Professors 
-and Students plan and make their schedules for classes. Cunyfirst is clunky and
-unoptimized. We want to streamline the experience especially when it comes to devices
+The purpose of the site is to simnplify how and improve upon how Professors <br />
+and Students plan and make their schedules for classes. Cunyfirst is clunky and<br />
+unoptimized. We want to streamline the experience especially when it comes to devices<br />
 that are not desktops.
+
 
 ## Resources and Technology used
 - Figma
 - React.js
 - MongoDB
 - Node.js
+
+##Deliverable 2 update
+Jun Zheng worked on the index, newUser, and lostUserPass<br />
+Eli Szafranski worked on classInfo, enroll, CreateAClass, facultyHomepage, and studentHomepage
 
 ## Visual Designs
 
@@ -34,5 +39,6 @@ that are not desktops.
 
 ### Student Enrollment 
 ![alt text](VisualDesigns/StudentEnrollment.png)
+
 
 
