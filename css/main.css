@@ -1,7 +1,7 @@
 
 /* SECTION COPIED FROM SEARCH TEMPLATE. SOURCE: https://www.bootdey.com/snippets/view/Search-Results */
 .ibox-content {
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.5);
   color: inherit;
   padding: 15px 20px 20px 20px;
   border-color: #E7EAEC;
