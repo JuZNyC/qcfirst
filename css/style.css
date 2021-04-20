@@ -1,10 +1,11 @@
 .container {
     position: relative;
     margin-top: 10%;
-    width: 900px;
     background: rgba(255, 255, 255, 0.5);
+    width: 25%;
+    padding-top: .75%;
+    padding-bottom: .75%;
 }
-
 .navbar {
     background: transparent;
     min-height:5px !important;
