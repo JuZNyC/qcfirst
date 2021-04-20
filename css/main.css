@@ -44,3 +44,17 @@
   text-align:center;
 
 }
+
+.navbar {
+  background: teal;
+  min-height:10px !important;
+}
+
+.nav-item {
+  color: #3A3A3A;
+}
+
+img {
+  margin-left: 10%;
+  margin-right: 10px;
+}
