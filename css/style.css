@@ -12,14 +12,14 @@
 
 .navbar {
     background: teal;
-    min-height:10px !important;
+    min-height:5px !important;
 }
 
 .nav-item {
     color: #3A3A3A;
+    margin-left: 30px;
 }
 
 img {
     margin-left: 10%;
-    margin-right: 10px;
 }

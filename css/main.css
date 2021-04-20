@@ -45,16 +45,28 @@
 
 }
 
+.container {
+  height: 200px;
+  position: relative;
+  max-width: 25%;
+  margin-top: 10%;
+}
+
+.form {
+  max-width: 50%;
+  position: relative;
+}
+
 .navbar {
   background: teal;
-  min-height:10px !important;
+  min-height:5px !important;
 }
 
 .nav-item {
   color: #3A3A3A;
+  margin-left: 30px;
 }
 
 img {
   margin-left: 10%;
-  margin-right: 10px;
 }
