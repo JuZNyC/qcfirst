@@ -51,7 +51,7 @@
 }
 
 .navbar {
-  background: teal;
+  background: transparent;
   min-height:10px !important;
 }
 
@@ -62,4 +62,9 @@
 
 img {
   margin-left: 10%;
+}
+
+body {
+  background-size: cover;
+  background: url("../img/nathan-dumlao-ewGMqs2tmJI-unsplash.jpg") teal no-repeat center center;
 }
