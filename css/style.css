@@ -1,12 +1,8 @@
 .container {
-    height: 200px;
     position: relative;
     margin-top: 10%;
-}
-
-.form {
-    max-width: 50%;
-    position: relative;
+    width: 900px;
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .navbar {
