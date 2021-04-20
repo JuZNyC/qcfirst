@@ -2,7 +2,7 @@
     position: relative;
     margin-top: 10%;
     background: rgba(255, 255, 255, 0.5);
-    width: fit-content;
+    width: border-box;
     padding-top: .75%;
     padding-bottom: .75%;
     elevation: below;
