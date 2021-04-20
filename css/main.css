@@ -45,13 +45,6 @@
 
 }
 
-.container {
-  height: 200px;
-  position: relative;
-  max-width: 25%;
-  margin-top: 10%;
-}
-
 .form {
   max-width: 50%;
   position: relative;
@@ -59,7 +52,7 @@
 
 .navbar {
   background: teal;
-  min-height:5px !important;
+  min-height:10px !important;
 }
 
 .nav-item {
