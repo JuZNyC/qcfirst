@@ -67,3 +67,8 @@ body {
   background-size: cover;
   background: url("../img/nathan-dumlao-ewGMqs2tmJI-unsplash.jpg") teal no-repeat center center;
 }
+
+#classNameFaculty, #classCapFaculty {
+  color: cadetblue;
+  font-size: 1.75rem;
+}

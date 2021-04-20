@@ -30,10 +30,29 @@
 
 
       <div class="container">
-          <div class="row row-cols-2">
-              <h2>CLASS NAME: <span id="className"></span> </h2>
-              <h2>Capacity: <span id="classCap"></span></h2>
+
+          <div class="row">
+              <div class="col-sm">
+                <h2>CLASS NAME: <span id="classNameFaculty">Internet and Web Technologies</span> </h2>
+              </div>
+              <div class="col-sm">
+                <h2>Capacity: <span id="classCapFaculty">11/65</span></h2>
+              </div>
+              <div class="col-sm">
+          <!-- Dropdown menu template taken from https://getbootstrap.com/docs/4.0/components/dropdowns/-->
+                  <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          My Classes
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="classInfo.html?class=class1">CSCI Class 1</a>
+                          <a class="dropdown-item" href="classInfo.html?class=class2">CSCI Class 2</a>
+                          <a class="dropdown-item" href="classInfo.html?class=class3">CSCI Class 3</a>
+                      </div>
+                  </div>
+              </div>
           </div>
+
       </div><br><br>
 
 
