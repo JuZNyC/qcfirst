@@ -1,44 +1,63 @@
 .container {
-    position: relative;
-    margin-top: 10%;
-    background: rgba(255, 255, 255, 0.5);
-    width: fit-content;
-    padding-top: .75%;
-    padding-bottom: .75%;
-    elevation: below;
+  position: relative;
+  margin-top: 10%;
+  background: rgba(255, 255, 255, 0.5);
+  width: fit-content;
+  padding-top: 0.75%;
+  padding-bottom: 0.75%;
+  elevation: below;
 }
 .navbar {
-    background: transparent;
-    min-height:5px !important;
+  background: transparent;
+  min-height: 5px !important;
 }
 
 .nav-item {
-    color: #3A3A3A;
+  color: #3a3a3a;
 }
 
 img {
-    margin-left: 10%;
-    padding-right: 25px;
+  margin-left: 10%;
+  padding-right: 25px;
 }
 
 body {
-    background-size: cover;
-    background: url("../img/nathan-dumlao-ewGMqs2tmJI-unsplash.jpg") teal no-repeat center center;
+  background-size: cover;
+  background: url("../img/nathan-dumlao-ewGMqs2tmJI-unsplash.jpg") teal
+    no-repeat center center;
 }
 
 input {
-    elevation: above;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  elevation: above;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 select {
-    elevation: above;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  elevation: above;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 @media only screen and (max-width: 768px) {
-    .container
-    {
-        text-align: center;
-    }
+  .container {
+    text-align: center;
+  }
+}
+
+/* Form Validation Stuff, based on https://www.youtube.com/watch?v=rsd4FNGTRBw */
+input.form-control.success {
+  border-color: #2ecc71;
+  border-width: 3px;
+}
+input.form-control.error {
+  border-color: #e74c3c;
+  border-width: 3px;
+}
+
+small.error {
+  color: #e74c3c;
+  font-weight: bold;
+  visibility: visible;
+}
+small.success {
+  visibility: hidden;
 }

@@ -16,8 +16,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Based on https://www.youtube.com/watch?v=b91XgdyX-SM
 app.post('/api/createUser', async (req, res) =>{
     try {
-      console.log(req.body.password);
-      console.log(req.body.TeacherStudent);
       req.body.password = bcrypt.hashSync(req.body.password, 10);
       var user = new User({
         firstName: req.body.firstName,
@@ -27,14 +25,14 @@ app.post('/api/createUser', async (req, res) =>{
         userType: req.body.TeacherStudent
       });
 
-      var savedMessage = await user.save()
+      var savedMessage = await user.save();
       console.log('user created');
-      res.json({status: 'ok'});
+      res.json({status: 'ok/redirect', url: '/'});
     } catch (error) {
       if(error.code === 11000){
         return res.json({
           status: "error",
-          error: "email already being used"
+          error: "That email is already being used"
         })
       }
       throw error; 
@@ -51,7 +49,7 @@ app.post("/", async (req, res) =>{
   if(user.userType == 'faculty'){
     return res.status(200).send({result: 'redirect', url:'/facultyHomepage.html'});
   }
-  else if (payload.userType == 'student'){
+  else if (user.userType == 'student'){
     return res.status(200).send({result: 'redirect', url:'/studentHomepage.html'});
   }
   else{
