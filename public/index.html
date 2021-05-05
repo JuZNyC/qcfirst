@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Login</title>
 </head>
 <body>
 <!-- Navbar and display page -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-left" href="index.html">
-            <img src="img/logo.png" alt="logo" id="logo" height="75">
+            <img src="../img/logo.png" alt="logo" id="logo" height="75">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -25,7 +25,7 @@
     </nav>
 
     <div class="container">
-        <form class="row gy-2 gx-3 justify-content-md-center" action="facultyHomepage.html">
+        <form class="row gy-2 gx-3 justify-content-md-center" id="loginForm" onsubmit="return false">
             <div class="col-auto">
                 <label for="qMail" class="visually-hidden">Qmail</label>
                 <input type="email" id="qMail" name="qMail" class="form-control" placeholder="Qmail"><br>
@@ -39,7 +39,54 @@
             </div>
         </form>
     </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+<script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+<script>
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', loginUser);
+
+    async function loginUser(event){
+        try{
+            event.preventDefault();
+            const email = document.getElementById('qMail').value;
+            const password = document.getElementById('password').value;
+            var jqpst = $.post('/api/login', {
+                email: email,
+                password:password
+            })
+                .done((data) =>{
+                    if(data.status == 'ok'){
+                        localStorage.setItem("token", data.data);
+                        $.post('/', {token: localStorage.getItem("token")})
+                            .done((data) =>{
+                                if(data.result == 'redirect'){
+                                    window.location.replace(data.url);
+                                }
+                            })
+                    }
+                    else if(data.status == 'not ok'){
+                        // Show that username/password is incorrect
+                    }
+                })
+        }
+        catch(error){
+            alert(error);
+        }
+    }
+    $(document).ready(()=>{
+        if(localStorage.getItem("token") != null){
+            $.post('/', {token: localStorage.getItem("token")})
+                .done((data) =>{
+                    if(data.result == 'redirect'){
+                        window.location.replace(data.url);
+                    }
+                })
+        }
+    })
+</script>
 </body>
 </html>
