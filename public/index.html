@@ -46,9 +46,10 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 <script>
+
     const form = document.getElementById('loginForm');
     form.addEventListener('submit', loginUser);
-
+    // Callback function when user POSTS a login request
     async function loginUser(event){
         try{
             event.preventDefault();
@@ -58,6 +59,8 @@
                 email: email,
                 password:password
             })
+                //Once the username and password are POSTed, we get back some response. If the response is ok, it contains the JWT token which
+                //we store in localStorage. Then, we POST the token to '/' endpoint, which verifies and decodes the token, and redirects us to the correct page
                 .done((data) =>{
                     if(data.status == 'ok'){
                         localStorage.setItem("token", data.data);
@@ -77,6 +80,7 @@
             alert(error);
         }
     }
+    // If a loged in user tries going to index.html, they will be automatically redirected
     $(document).ready(()=>{
         if(localStorage.getItem("token") != null){
             $.post('/', {token: localStorage.getItem("token")})

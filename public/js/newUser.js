@@ -5,11 +5,14 @@ const firstN = document.querySelector("#firstName");
 const lastN = document.querySelector("#lastName");
 
 function checkForm(){
-    var foundErrors = false;
+    
+    var foundErrors = false; // This is used to check if there are any errors. If there are, this is set to true and we don't POST the form
     var posErrors = {
         invAdd:"Invalid email address. Must be QC Email", 
         match:"Passwords do not match."
         };
+
+    // The email must be a queens email
     const re = /^[a-zA-Z0-9._-]+@(qmail|qc)+\.cuny.edu$/;
     let passErr = false;
     if(!re.test(email.value)){
@@ -37,6 +40,8 @@ function checkForm(){
         $(confPass).next().removeClass("error");
         $(confPass).next().addClass("success");
     }
+    // If we didn't find any errors, this will send a post request to /api/createUser with all the filled in forms
+    // Depending on the response, we will either be redirected to the main page or an error alert will apear
     if(!foundErrors){
         const qMail = document.getElementById('qMail').value;
         const firstName = document.getElementById('firstName').value;

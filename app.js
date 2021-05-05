@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Based on https://www.youtube.com/watch?v=b91XgdyX-SM
 app.post('/api/createUser', async (req, res) =>{
     try {
+      // Accept and encrypt user password input
       req.body.password = bcrypt.hashSync(req.body.password, 10);
       var user = new User({
         firstName: req.body.firstName,
@@ -25,8 +26,10 @@ app.post('/api/createUser', async (req, res) =>{
         userType: req.body.TeacherStudent
       });
 
+      // This saves a new user to the DB
       var savedMessage = await user.save();
       console.log('user created');
+      // Return okay, along with the URL to the new page to redirect to
       res.json({status: 'ok/redirect', url: '/'});
     } catch (error) {
       if(error.code === 11000){
@@ -43,9 +46,10 @@ app.post('/api/createUser', async (req, res) =>{
 });
 
 app.post("/", async (req, res) =>{
-  // console.log(req.body.token)
+  // This is called if there is something in the Users local storage ie. a user is sucessfully logged in. We verify that the JWT is untammpered
   const user = jwt.verify(req.body.token, process.env.JWT_SECRET);
-  // console.log(user, user.userType);
+
+  // The verified and decoded JWT is used to determine where to direct the loged in user
   if(user.userType == 'faculty'){
     return res.status(200).send({result: 'redirect', url:'/facultyHomepage.html'});
   }
@@ -61,18 +65,25 @@ app.post("/", async (req, res) =>{
 app.post("/api/login", async (req, res) =>{
   const email = req.body.email; 
   const plnTxtPwd = req.body.password; 
+
+  // Search the DB for someone with the same email. Emails are unique so there should be only one
   const user = await User.findOne({email}).lean();
-  // console.log(user);
+
+
   if(!user){
     return res.json({status: 'not ok',error: "Invalid username/password"});
   }
   try{
+    //Compare plain text password with hashed password stored in the DB
     if(await bcrypt.compare(plnTxtPwd, user.password)){
+
+      //If the supplied password matches the hash (using the bcrypt.compare method), we create a signed JWT token with the user_id, email, and type
       const token = jwt.sign({
         id: user._id, 
         email: user.email,
         userType: user.userType
         }, process.env.JWT_SECRET);
+      // Send token back in JSON file
       res.json({status: 'ok', data:token});
     }
   } 
