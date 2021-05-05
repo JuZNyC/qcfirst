@@ -68,7 +68,6 @@ function checkForm(){
 document.getElementById("regForm").addEventListener("submit", function(event) {
     event.preventDefault();
     var err = checkForm();
-    // Prevent default form action. DO NOT REMOVE THIS LINE
  });
 
  function handleError(elmt, err){
