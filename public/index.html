@@ -29,6 +29,7 @@
                 <input type="email" id="qMail" name="qMail" class="form-control" placeholder="Qmail"><br>
                 <label for="password" class="visually-hidden">Password</label>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password"><br>
+                <small style="color: #e74c3c; font-weight: bold;"></small>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary" value="Login">Login</button><br>
                     <a href="newUser.html" class="justify-content-md-center">New User</a>
@@ -71,6 +72,7 @@
                     }
                     else if(data.status == 'not ok'){
                         // Show that username/password is incorrect
+                        $("small").text(data.error)
                     }
                 })
         }
