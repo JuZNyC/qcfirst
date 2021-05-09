@@ -50,9 +50,9 @@ app.post('/api/createUser', async (req, res) =>{
 app.post('/api/validateAccess', async (req, res) => {
   const accessLevels = {
     '/studentHomepage.html': 'student',
-    'enroll.html': 'student',
+    '/enroll.html': 'student',
     '/facultyHomepage.html': 'faculty',
-    'createAClass.html': 'faculty',
+    '/createAClass.html': 'faculty',
     '/classInfo.html': 'faculty'
   };
   var path = new URL(req.headers.referer).pathname
