@@ -3,6 +3,7 @@ const app = express();
 const http = require('http').Server(app);
 const bcrypt = require("bcryptjs");
 const bodyParser = require('body-parser');
+// const url = require('url');
 const mongoose = require('mongoose');
 const User = require('./model/user');
 const jwt = require('jsonwebtoken');
@@ -44,6 +45,26 @@ app.post('/api/createUser', async (req, res) =>{
     }
     
 });
+
+//Users cannot access pages unless loged in 
+app.post('/api/validateAccess', async (req, res) => {
+  const accessLevels = {
+    '/studentHomepage.html': 'student',
+    'enroll.html': 'student',
+    '/facultyHomepage.html': 'faculty',
+    'createAClass.html': 'faculty',
+    '/classInfo.html': 'faculty'
+  };
+  var path = new URL(req.headers.referer).pathname
+  const user = jwt.verify(req.body.token, process.env.JWT_SECRET);
+  // var pos = path.slice(1, path.indexOf('.')); 
+  if(user.userType != accessLevels[path]){
+    res.json({
+      status: 'redirect',
+      url: '/'
+    })
+  }
+})
 
 app.post("/", async (req, res) =>{
   // This is called if there is something in the Users local storage ie. a user is sucessfully logged in. We verify that the JWT is untammpered
@@ -91,6 +112,7 @@ app.post("/api/login", async (req, res) =>{
     console.log(error)
   }
 });
+
 
 mongoose.connect(process.env.MONGO_URI, (err) =>{
     console.log('mongo db connected', err);

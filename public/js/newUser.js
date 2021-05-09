@@ -43,11 +43,11 @@ function checkForm(){
     // If we didn't find any errors, this will send a post request to /api/createUser with all the filled in forms
     // Depending on the response, we will either be redirected to the main page or an error alert will apear
     if(!foundErrors){
-        const qMail = document.getElementById('qMail').value;
-        const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;
-        const password = document.getElementById('password').value;
-        const TeacherStudent = document.getElementById('TeacherStudent').value;
+        const qMail = document.getElementById('qMail').value.trim();
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const TeacherStudent = document.getElementById('TeacherStudent').value.trim();
         $.post('/api/createUser', {
             qMail: qMail, 
             firstName:firstName,
