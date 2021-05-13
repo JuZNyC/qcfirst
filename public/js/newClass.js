@@ -16,13 +16,15 @@ function checkForm(){
     const thBtn = $("#thBtn").val();
     const frBtn = $("#frBtn").val();
     const timeBlock = $("#timeBlock");
+    const semBlock = $("#sem");
     var foundErrors = false; // This is used to check if there are any errors. If there are, this is set to true and we don't POST the form
     var posErrors = {
         invName:"Invalid Course Name", 
         invCapacity:"Invalid capacity",
         invCourseNum:"Invalid Course Number",
         invDepartment:"Invalid Department",
-        invTimes:"'From' must be before 'To'"
+        invTimes:"'From' must be before 'To'",
+        invSem:"Must have both a semester and a year"
     };
 
     const inputName = /[a-zA-Z]{2,}/;
@@ -58,6 +60,15 @@ function checkForm(){
     else{
         handleSuccess(timeBlock);
     }
+
+    if(!(courseSeason && courseYear)){
+        handleError(semBlock, posErrors.invSem);
+        foundErrors = true;
+    }
+    else{
+        handleSuccess(semBlock);
+    }
+
     if(!foundErrors){
         $.post('/api/createClass',{
             season: courseSeason,

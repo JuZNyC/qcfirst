@@ -105,3 +105,11 @@ small.success {
   border: 3px solid #2ecc71;
   padding: 7px 3px 0px 0px;
 }
+
+.sem.error {
+  border: 3px solid #e74c3c;
+}
+
+.sem.success {
+  border: 3px solid #2ecc71;
+}
