@@ -26,7 +26,7 @@ const classSchema = new Schema(
         name : {type: String, required: true},
         number: {type: Number, required: true},
         roster : {type: [User]},        
-        instructor : {type: [User], required: true},
+        instructor : {type: Schema.Types.ObjectId, required: true},
         description : {type: String, required: true},
         capacity : {type: Number, required: true},
         enrollmentDeadline: {type: Date, required: true},

@@ -117,6 +117,16 @@ app.post("/api/login", async (req, res) =>{
   }
 });
 
+app.get('/api/faculty', async (req, res) =>{
+  User.find({userType: 'faculty'})
+  .then((result) =>{
+    res.send(result)
+  })
+  .catch((error) =>{
+    console.log(error);
+    res.send("No faculty")
+  })
+})
 
 mongoose.connect(process.env.MONGO_URI, (err) =>{
     console.log('mongo db connected', err);

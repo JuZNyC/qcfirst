@@ -14,7 +14,7 @@
           integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
           crossorigin="anonymous"></script>      
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-        <script src="./js/validateAccess.js"></script>
+        <!-- <script src="./js/validateAccess.js"></script> -->
     </head>
     <body>
       
@@ -64,10 +64,8 @@
             <div class="row g-3">
               <div class="col-md-4 mb-3">
                 <label for="courseInstructor">Instructor</label>
-                <input type="text" class="form-control" id="courseInstructor" placeholder="Instructor" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
+                <select class="form-select form-control" aria-label="Default select example" id="courseInstructor">
+                </select>               
               </div>
               <div class="col-md-4 mb-3">
                 <label for="dept">Department</label>
@@ -144,6 +142,17 @@
       if(localStorage.getItem("token") != null){
         $("#navbarNavAltMarkup").append('<a class="nav-item nav-link active" href="/" onclick="return removeJWT()"><strong>Logout</strong></a>');
       }
+      $.get('/api/faculty')
+      .done((data) =>{
+        if(data){
+          $.each(data, (idx, val) =>{
+            $("#courseInstructor").append($('<option>',{
+              value: val._id,
+              text : `${val.firstName} ${val.lastName}`
+            }))
+          })
+        }
+      })
     });
     function removeJWT(){
       localStorage.removeItem("token");
