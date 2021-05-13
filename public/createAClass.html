@@ -45,35 +45,30 @@
               <div class="col-md-4 mb-3">
                 <label for="className">Class name</label>
                 <input type="text" class="form-control" id="className" placeholder="Class name" required>
-                <div class="valid-feedback">
-                  Looks good!
-                </div>
+                <small></small>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="classCapacity">Capacity</label>
                 <input type="text" class="form-control" id="classCapacity" placeholder="Capacity" required>
-                <div class="valid-feedback">
-                  Looks good!
-                </div>
+                <small></small>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="courseNum">Course Number</label>
                 <input type="text" class="form-control" id="courseNum" placeholder="Course Number" required>
-                <div class="valid-feedback">
-                  Looks good!
-                </div>
+                <small></small>
               </div>
             </div>
             <div class="row g-3">
               <div class="col-md-4 mb-3">
                 <label for="courseInstructor">Instructor</label>
                 <select class="form-select form-control" aria-label="Default select example" id="courseInstructor">
-                </select>               
+                </select> 
+                <small></small>              
               </div>
               <div class="col-md-4 mb-3">
                 <label for="dept">Department</label>
                 <input type="text" class="form-control" id="dept" placeholder="Department" required>
-                
+                <small></small>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="semester">Semester</label>
@@ -88,6 +83,7 @@
                     <option value="2015" selected>2015</option>
                   </optgroup>
                 </select>
+                <small></small>
                 
                 
               </div>
@@ -97,6 +93,7 @@
                 <div class="col-md-6 offset-md-3">
                     <div class="input-group">
                         <textarea class="form-control" id="courseDesc" rows="3" placeholder="Enter course description here" required></textarea>
+                        <small></small>
                     </div>
                 </div>
             </div>
@@ -137,12 +134,17 @@
               </div>
 
               <div class="group" role="group" aria-label="Basic example" style="margin-top: 10px;">
-                <label for="fromTime" class="lead">From: </label><input type="time" id="fromTime" class="col-md-4" required>
-                <label for="toTime" class="lead">To: </label><input type="time" id="toTime" class="col-md-4" required>
+                <div id="timeBlock" class="">
+                  <label for="fromTime" class="lead">From: </label><input type="time" id="fromTime" class="col-md-4" required>
+                  <label for="toTime" class="lead">To: </label><input type="time" id="toTime" class="col-md-4" required>
+                </div>
+                <small></small>
               </div>
-
+              
             </div>
-            <div class="row justify-content-md-center">
+            
+
+            <div class="row justify-content-md-center" >
               <button class="btn btn-primary btn-block" type="submit">Submit form</button>
               <button class="btn btn-danger btn-block" id="cancel">Cancel</button>
             </div>
