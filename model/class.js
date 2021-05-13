@@ -12,7 +12,7 @@ const semesterSchema = new Schema(
 
 const scheduleSchema = new Schema(
     {
-        days: {type: [String], enum: ["monday", "tuesday", "wednesday", "thursday", "friday"], required: true},
+        days: {type: [String], required: true},
         from: {type: String, required: true},
         to: {type: String, required: true}
     } 

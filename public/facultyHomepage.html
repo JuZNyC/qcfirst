@@ -32,6 +32,12 @@
           </div>
       </nav>
 
+      <!-- Success alert for redirects -->
+      <div class="alert alert-success alert-dismissible fade show" role="alert" hidden>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
       <!-- Create a new class -->
         <div class="container">
@@ -113,6 +119,11 @@
     $(document).ready(()=>{
       if(localStorage.getItem("token") != null){
         $("#navbarNavAltMarkup").append('<a class="nav-item nav-link active" href="/" onclick="return removeJWT()"><strong>Logout</strong></a>');
+      }
+      if(sessionStorage.getItem("fromRedirect")){
+          $(".alert").append(`<strong>Success!</strong> ${sessionStorage.getItem("fromRedirect")}`);
+          $(".alert").removeAttr("hidden");
+          sessionStorage.removeItem("fromRedirect");
       }
     });
     function removeJWT(){

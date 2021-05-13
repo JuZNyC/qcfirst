@@ -58,7 +58,9 @@ function checkForm(){
         .done((data)=>{
             console.log(data.status)
             if(data.status == 'ok/redirect'){
+                localStorage.setItem('fromRedirect', 'Created a new user');
                 window.location.replace(data.url);
+                console.log(localStorage.getItem("fromRedirect"));
             }
         else if(data.status == 'error'){
                 alert(data.error)

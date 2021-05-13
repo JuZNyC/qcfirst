@@ -3,16 +3,18 @@ const app = express();
 const http = require('http').Server(app);
 const bcrypt = require("bcryptjs");
 const bodyParser = require('body-parser');
-// const url = require('url');
 const mongoose = require('mongoose');
 const User = require('./model/user');
 const Class = require('./model/class')
 const jwt = require('jsonwebtoken');
+const expressSanitizer = require('express-sanitizer');
 require('dotenv').config()
 
 app.use(express.static(__dirname+'/public'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressSanitizer());
+
 
 
 // Based on https://www.youtube.com/watch?v=b91XgdyX-SM
@@ -21,9 +23,9 @@ app.post('/api/createUser', async (req, res) =>{
       // Accept and encrypt user password input
       req.body.password = bcrypt.hashSync(req.body.password, 10);
       var user = new User({
-        firstName: req.body.firstName,
-        lastName:req.body.lastName,
-        email:req.body.qMail,
+        firstName: req.sanitize(req.body.firstName),
+        lastName: req.sanitize(req.body.lastName),
+        email:req.sanitize(req.body.qMail),
         password:req.body.password,
         userType: req.body.TeacherStudent
       });
@@ -48,15 +50,14 @@ app.post('/api/createUser', async (req, res) =>{
 });
 
 app.post('/api/createClass', async (req, res) =>{
-  console.log(req.body);
   var course = new Class({
     semester: {season: req.body.season, year: req.body.year},
-    department: req.body.department,
-    name: req.body.name,
-    number: req.body.number,
+    department: req.sanitize(req.body.department),
+    name: req.sanitize(req.body.name),
+    number: req.sanitize(req.body.number),
     instructor: new mongoose.Types.ObjectId(req.body.instructor),
-    descriptiption: req.body.courseDesc,
-    capacity: req.body.capacity,
+    description: req.sanitize(req.body.courseDesc),
+    capacity: req.sanitize(req.body.capacity),
     enrollmentDeadline: req.body.enrollmentDate,
     schedule: {
       days: [req.body.moBtn, req.body.tuBtn, req.body.weBtn, req.body.thBtn, req.body.frBtn],
@@ -64,7 +65,26 @@ app.post('/api/createClass', async (req, res) =>{
       to: req.body.toTime
     }
   });
-  console.log(course);
+  try{
+    const user = jwt.verify(req.body.token, process.env.JWT_SECRET)
+    if(user.userType == 'faculty'){
+      var savedClass = await course.save();
+      console.log("course created");
+      res.json({status: 'ok/redirect', url: '/facultyHomepage.html'});
+    }
+  }
+  catch (error) {
+    if(error.code === 11000){
+      return res.json({
+        status: "error",
+        error: "That course has already been created"
+      })
+    }
+    throw error; 
+  } 
+  finally{
+    console.log('create course POST was called');
+  }
 })
 
 //Users cannot access pages unless loged in 

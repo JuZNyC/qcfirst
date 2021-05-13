@@ -75,10 +75,21 @@ function checkForm(){
             tuBtn: tuBtn,
             weBtn: weBtn,
             thBtn: thBtn,
-            frBtn: frBtn
+            frBtn: frBtn,
+            token: localStorage.getItem("token")
         })
         .done((data) =>{
-            console.log(data);
+            console.log(data.status);
+            if(data.status == 'ok/redirect'){
+                sessionStorage.setItem('fromRedirect', 'Created a new class');
+                window.location.replace(data.url);
+            }
+            else if(data.status == 'error'){
+                alert(data.error);
+            }
+        })
+        .fail((error) =>{
+            alert('Something went wrong, please wait and try again');
         })
     }
 }
