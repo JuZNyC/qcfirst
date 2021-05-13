@@ -17,6 +17,11 @@ function checkForm(){
     const frBtn = $("#frBtn").val();
     const timeBlock = $("#timeBlock");
     const semBlock = $("#sem");
+    const daysBlock = $(".days");
+    var weekdays = [];
+    $.each($("input:checked"), (idx, val) =>{
+        weekdays.push(val.value);
+    })
     var foundErrors = false; // This is used to check if there are any errors. If there are, this is set to true and we don't POST the form
     var posErrors = {
         invName:"Invalid Course Name", 
@@ -24,7 +29,8 @@ function checkForm(){
         invCourseNum:"Invalid Course Number",
         invDepartment:"Invalid Department",
         invTimes:"'From' must be before 'To'",
-        invSem:"Must have both a semester and a year"
+        invSem:"Must have both a semester and a year",
+        invDays: "Must choose at least one day"
     };
 
     const inputName = /[a-zA-Z]{2,}/;
@@ -69,6 +75,15 @@ function checkForm(){
         handleSuccess(semBlock);
     }
 
+    if(weekdays.length === 0){ 
+        handleError(daysBlock, posErrors.invDays);
+        foundErrors = true;
+    }
+    else{
+        console.log(weekdays);
+        handleSuccess(daysBlock)
+    }
+
     if(!foundErrors){
         $.post('/api/createClass',{
             season: courseSeason,
@@ -82,11 +97,7 @@ function checkForm(){
             department: department,
             courseDesc: courseDesc,
             enrollmentDate: enrollmentDate,
-            moBtn: moBtn,
-            tuBtn: tuBtn,
-            weBtn: weBtn,
-            thBtn: thBtn,
-            frBtn: frBtn,
+            days: weekdays,
             token: localStorage.getItem("token")
         })
         .done((data) =>{

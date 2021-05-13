@@ -81,7 +81,7 @@
                       <option value="winter">Winter</option>
                     </optgroup>
                     <optgroup id="semesterYear" label="Year" data-max-options="1" required>
-                      <option value="2015" selected>2015</option>
+                      <option value="2020" selected>2020</option>
                     </optgroup>
                   </select>
                 </div>
@@ -111,46 +111,55 @@
 
 
             <div class="row">
-              <p class="lead" style="margin-top: 10px;">Select the days of the week your class will take place</p>
+              <p class="lead col-md-12 text-center" style="margin-top: 10px;">Select the days of the week and the time your class will take place</p>
             </div>
-            <div class="input-group mb-3">
-              <div class="form-check form-check-inline offset-md-2">
-                  <input type="checkbox" class="btn-check" id="moBtn">
-                  <label class="btn btn-outline-primary" for="moBtn">Mo</label>
+            <div class="days"> 
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="moBtn" value="monday">
+                <label class="form-check-label btn btn-outline-primary" for="moBtn">Mo</label>
               </div>
               <div class="form-check form-check-inline">
-                <input type="checkbox" class="btn-check" id="tuBtn">
-                <label class="btn btn-outline-primary" for="tuBtn">Tu</label>
+                <input class="form-check-input" type="checkbox" id="tuBtn" value="tuesday">
+                <label class="form-check-label btn btn-outline-primary" for="tuBtn">Tu</label>
               </div>
               <div class="form-check form-check-inline">
-                <input type="checkbox" class="btn-check" id="weBtn">
-                <label class="btn btn-outline-primary" for="weBtn">We</label>
+                <input class="form-check-input" type="checkbox" id="weBtn" value="wednesday">
+                <label class="form-check-label btn btn-outline-primary" for="weBtn">We</label>
               </div>
               <div class="form-check form-check-inline">
-                <input type="checkbox" class="btn-check" id="thBtn">
-                <label class="btn btn-outline-primary" for="thBtn">Th</label>
+                <input class="form-check-input" type="checkbox" id="thBtn" value="tuesday">
+                <label class="form-check-label btn btn-outline-primary" for="thBtn">Th</label>
               </div>
               <div class="form-check form-check-inline">
-                <input type="checkbox" class="btn-check" id="frBtn">
-                <label class="btn btn-outline-primary" for="frBtn">Fr</label>
+                <input class="form-check-input" type="checkbox" id="frBtn" value="wednesday">
+                <label class="form-check-label btn btn-outline-primary" for="frBtn">Fr</label>
               </div>
-
-              <div class="group" role="group" aria-label="Basic example" style="margin-top: 10px;">
-                <div id="timeBlock" class="">
-                  <label for="fromTime" class="lead">From: </label><input type="time" id="fromTime" class="col-md-4" required>
-                  <label for="toTime" class="lead">To: </label><input type="time" id="toTime" class="col-md-4" required>
-                </div>
-                <small></small>
-              </div>
-              
             </div>
-            
+            <small></small>
 
+            <div class="row" id="timeBlock">
+              <div class="col-md">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon3">From</span>
+                    </div>
+                    <input type="time" class="form-control" id="fromTime" aria-describedby="basic-addon3">
+                  </div>
+              </div>
+              <div class="col-md">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon4">To</span>
+                    </div>
+                    <input type="time" class="form-control" id="toTime" aria-describedby="basic-addon3">
+                  </div>
+              </div>
+            </div>
+            <small></small>
             <div class="row justify-content-md-center" >
               <button class="btn btn-primary btn-block" type="submit">Submit form</button>
               <button class="btn btn-danger btn-block" id="cancel">Cancel</button>
             </div>
-            
           </form><!-- Based on examples from bootstrap form docs. Src: https://getbootstrap.com/docs/4.0/components/forms/ and https://getbootstrap.com/docs/5.0/forms --> 
         </div>
   <script>
@@ -172,7 +181,7 @@
       })
 
       // Just adds 50 years starting from 2015 so I don't manually have to type them out
-      $.each(Array.from({length:50},(v,k)=>k+2016), (idx, val) =>{
+      $.each(Array.from({length:50},(v,k)=>k+2021), (idx, val) =>{
         $("#semesterYear").append($('<option>', {
           value: val,
           text: val

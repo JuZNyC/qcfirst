@@ -60,7 +60,7 @@ app.post('/api/createClass', async (req, res) =>{
     capacity: req.sanitize(req.body.capacity),
     enrollmentDeadline: req.body.enrollmentDate,
     schedule: {
-      days: [req.body.moBtn, req.body.tuBtn, req.body.weBtn, req.body.thBtn, req.body.frBtn],
+      days: req.body.days,
       from: req.body.fromTime,
       to: req.body.toTime
     }
