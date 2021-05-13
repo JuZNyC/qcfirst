@@ -47,6 +47,26 @@ app.post('/api/createUser', async (req, res) =>{
     
 });
 
+app.post('/api/createClass', async (req, res) =>{
+  console.log(req.body);
+  var course = new Class({
+    semester: {season: req.body.season, year: req.body.year},
+    department: req.body.department,
+    name: req.body.name,
+    number: req.body.number,
+    instructor: new mongoose.Types.ObjectId(req.body.instructor),
+    descriptiption: req.body.courseDesc,
+    capacity: req.body.capacity,
+    enrollmentDeadline: req.body.enrollmentDate,
+    schedule: {
+      days: [req.body.moBtn, req.body.tuBtn, req.body.weBtn, req.body.thBtn, req.body.frBtn],
+      from: req.body.fromTime,
+      to: req.body.toTime
+    }
+  });
+  console.log(course);
+})
+
 //Users cannot access pages unless loged in 
 app.post('/api/validateAccess', async (req, res) => {
   const accessLevels = {
