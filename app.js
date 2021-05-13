@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 // const url = require('url');
 const mongoose = require('mongoose');
 const User = require('./model/user');
+const Class = require('./model/class')
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
