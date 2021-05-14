@@ -190,7 +190,7 @@ app.get('/api/:department/courses', async (req, res) =>{
       var course = await Class.find({
         $and:[
           {department:dept},
-          {name: courseNum}
+          {name: new RegExp(courseNum, "i")}
         ]})
         res.json(course);    
       }
