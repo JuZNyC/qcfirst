@@ -174,7 +174,7 @@ app.get('/api/departments', async (req, res) =>{
 })
 
 app.get('/api/:department/courses', async (req, res) =>{
-  var courseNum = req.query.courseNum;
+  var courseNum = req.sanitize(req.query.courseNum);
   var dept = req.params.department;
   if(courseNum){
     if(parseInt(courseNum)){
