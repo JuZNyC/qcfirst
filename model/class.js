@@ -18,6 +18,13 @@ const scheduleSchema = new Schema(
     } 
 );
 
+const instructorSchema = new Schema(
+    {
+        instructorId: {type: Schema.Types.ObjectId, required: true},
+        instructorName: {type:String, required:true}
+    }
+);
+
 
 const classSchema = new Schema(
     {
@@ -26,7 +33,7 @@ const classSchema = new Schema(
         name : {type: String, required: true},
         number: {type: Number, required: true},
         roster : {type: [User]},        
-        instructor : {type: Schema.Types.ObjectId, required: true},
+        instructor : {type: instructorSchema, required: true},
         description : {type: String, required: true},
         capacity : {type: Number, required: true},
         enrollmentDeadline: {type: Date, required: true},

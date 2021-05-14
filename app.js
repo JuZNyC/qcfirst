@@ -55,7 +55,10 @@ app.post('/api/createClass', async (req, res) =>{
     department: req.sanitize(req.body.department),
     name: req.sanitize(req.body.name),
     number: req.sanitize(req.body.number),
-    instructor: new mongoose.Types.ObjectId(req.body.instructor),
+    instructor: {
+      instructorId: new mongoose.Types.ObjectId(req.body.instructor),
+      instructorName: req.body.instructorName 
+    },
     description: req.sanitize(req.body.courseDesc),
     capacity: req.sanitize(req.body.capacity),
     enrollmentDeadline: req.body.enrollmentDate,
@@ -201,6 +204,12 @@ app.get('/api/:department/courses', async (req, res) =>{
     });
     res.json(course);
   }
+})
+
+app.get('/api/course', async (req, res) =>{
+  var courseId = req.sanitize(req.query.classId);
+  var course = await Class.findById(courseId);
+  res.json(course);
 })
 
 mongoose.connect(process.env.MONGO_URI, (err) =>{
