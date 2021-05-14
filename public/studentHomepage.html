@@ -13,7 +13,10 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>      
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script src="./js/validateAccess.js"></script>
+    <script src="./js/search.js" defer></script>
     </head>
   <body>
     <!-- Navbar and display page -->
@@ -33,11 +36,6 @@
 <div class="container text-center row-cols-md-auto">
         <p  id="enrollmentDeadline">Your enrollment deadline is:<br><span id="enrolmentDate">01/01/21</span></p>
 </div>
-        <!-- <input type="text" readonly style="display:flex; float: right; background:#bb0707;" value="YOUR DAY IS COMINGSpecifically on this date"> -->
-
-
-
-
     <!-- Search and display modified from: https://www.bootdey.com/snippets/view/Search-Results -->
     <div class="container bootstrap snippets bootdey">
       <div class="row">
@@ -45,55 +43,22 @@
               <div class="ibox float-e-margins">
                   <div class="ibox-content">
                       <div class="search-form">
-                          <form>
-                              <div class="input-group">
-                                  <input type="text" placeholder="Search for a class" name="search" class="form-control input-lg">
-                                  <div class="input-group-btn">
-                                      <button class="btn btn-lg btn-primary" type="submit">
-                                          Search
-                                      </button>
-                                  </div>
+                          <form id="searchBox">
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <select class="form-select form-control" id="departmentsDropdown">
+                                      </select>                                      
+                                </div>
+                                <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Search for a class name or number" id="userQuery">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit">Search</button>
+                                    </div>
                               </div>
                           </form>
                       </div>
-  
 
-                      <div class="hr-line-dashed"></div>
-
-
-                      <div class="search-result">
-                          <h3><a href="enroll.html">CS355</a></h3>
-                          <a href="#" class="search-link"></a>
-                          <p> Internet and Web Technologies
-                          </p>
-                      </div>
-  
-                      <div class="hr-line-dashed"></div>
-                      <div class="search-result">
-                          <h3><a href="enroll.html">CS313</a></h3>
-                          <a href="#" class="search-link"></a>
-                          <p>Data Structures
-                          </p>
-                      </div>
-                      <div class="hr-line-dashed"></div>
-  
-
-
-                      <div class="search-result">
-                          <h3><a href="#"></a></h3>
-                          <a href="#" class="search-link"></a>
-                          <p>
-                          </p>
-                      </div>
-                      <div class="hr-line-dashed"></div>
-  
-                      <div class="search-result">
-                          <h3><a href="#"></a></h3>
-                          <a href="#" class="search-link"></a>
-                          <p>
-                          </p>
-                      </div>
-
+                    <div id="box-of-results">
+                    </div>
 
                   </div>
               </div>
@@ -106,6 +71,19 @@
         if(localStorage.getItem("token") != null){
             $("#navbarNavAltMarkup").append('<a class="nav-item nav-link active" href="/" onclick="return removeJWT()"><strong>Logout</strong></a>');
         }
+        $.get('/api/departments')
+        .done((data) =>{
+            if(data){
+            $.each(data, (idx, val) =>{
+                    var newVal = val;
+                    newVal = newVal.replace(/\s+/g, '-').toLowerCase();
+                    $("#departmentsDropdown").append($('<option>',{
+                    value: val,
+                    text : val
+                    }))
+                })
+            }
+        })
     });
     function removeJWT(){
         localStorage.removeItem("token");

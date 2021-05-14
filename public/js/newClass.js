@@ -10,18 +10,16 @@ function checkForm(){
     const department = $("#dept").val();
     const courseDesc = $("#courseDesc").val();
     const enrollmentDate = $("#enrDt").val();
-    const moBtn = $("#moBtn").val();
-    const tuBtn = $("#tuBtn").val();
-    const weBtn = $("#weBtn").val();
-    const thBtn = $("#thBtn").val();
-    const frBtn = $("#frBtn").val();
     const timeBlock = $("#timeBlock");
     const semBlock = $("#sem");
     const daysBlock = $(".days");
+
+    // Get all the values from checked checkboxes and store them in an array
     var weekdays = [];
     $.each($("input:checked"), (idx, val) =>{
         weekdays.push(val.value);
     })
+    
     var foundErrors = false; // This is used to check if there are any errors. If there are, this is set to true and we don't POST the form
     var posErrors = {
         invName:"Invalid Course Name", 

@@ -168,6 +168,41 @@ app.get('/api/faculty', async (req, res) =>{
   })
 })
 
+app.get('/api/departments', async (req, res) =>{
+  var deps = await Class.distinct('department');
+  res.json(deps);
+})
+
+app.get('/api/:department/courses', async (req, res) =>{
+  var courseNum = req.query.courseNum;
+  var dept = req.params.department;
+  if(courseNum){
+    if(parseInt(courseNum)){
+      courseNum=parseInt(courseNum);
+      var course = await Class.find({
+        $and:[
+          {department:dept},
+          {number: courseNum}
+        ]})
+        res.json(course);
+    }
+    else{
+      var course = await Class.find({
+        $and:[
+          {department:dept},
+          {name: courseNum}
+        ]})
+        res.json(course);    
+      }
+  }
+  else{
+    var course = await Class.find({
+      department:dept
+    });
+    res.json(course);
+  }
+})
+
 mongoose.connect(process.env.MONGO_URI, (err) =>{
     console.log('mongo db connected', err);
 });
