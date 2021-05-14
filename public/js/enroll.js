@@ -10,8 +10,10 @@ $(document).ready(()=>{
       $("#navbarNavAltMarkup").append('<a class="nav-item nav-link active" href="/" onclick="return removeJWT()"><strong>Logout</strong></a>');
     }
     if(localStorage.getItem("classId") != null){
-      $.get(`/api/course?classId=${localStorage.getItem("classId")}`)
-      .done((data)=>{
+        $("#cid").val(localStorage.getItem("classId"));
+        $.get(`/api/course?classId=${localStorage.getItem("classId")}`)
+        .done((data)=>{
+            localStorage.removeItem("classId");
             var comDays = "";
             $.each(data.schedule.days, (idx, val) =>{
                 comDays = comDays.concat(`${dayShort[val]}/`);
@@ -26,8 +28,8 @@ $(document).ready(()=>{
             $("#scheduleDays").attr("placeholder", `${comDays}`);
             $("#scheduleTime").attr("placeholder", `${data.schedule.from} - ${data.schedule.to}`);
 
-      })
-    }
+        })
+        }
   });
   function removeJWT(){
     localStorage.removeItem("token");
