@@ -192,7 +192,7 @@ app.post('/api/enroll', async (req, res) =>{
         //Iterate over all the classes and grab their data
         for(var i = 0; i < student.allClasses[idx].registeredClasses.length; i++){
           var scndClass = await Class.findById(student.allClasses[idx].registeredClasses[i]);
-          console.log(`${i+1}: secondclass: ${scndClass._id}, main: ${classId}`); // For debugging
+          // console.log(`${i+1}: secondclass: ${scndClass._id}, main: ${classId}`); // For debugging
           console.log(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days) // For debugging
           // If the student already registered for this class
           if(String(scndClass._id) == String(classId)){  
@@ -210,10 +210,10 @@ app.post('/api/enroll', async (req, res) =>{
           }
         }
         // Once we determined that there are no issues with registering, add the student to class roster, and add the class ID to the students registered classes
+        course.roster.push(student);
         student.allClasses[idx].registeredClasses.push(mongoose.Types.ObjectId(classId));
         // console.log(`course roster: ${course.roster}`); // For debugging
-        course.roster.push(student);
-        // console.log(`After pushing new student course roster: ${course.roster}`); // For debugging
+        console.log(`After pushing new student course roster: ${course.roster}`); // For debugging
       }
 
       // If this is the students first time registering for a class for this particular semester or in general:
@@ -222,6 +222,7 @@ app.post('/api/enroll', async (req, res) =>{
           semester:concSem,
           registeredClasses:[mongoose.Types.ObjectId(classId)]
         })
+        course.roster.push(student);
       }
       var savedStnt = await student.save();
       var savedCrs = await course.save();
@@ -298,9 +299,19 @@ app.get('/api/:department/courses', async (req, res) =>{
 
 // Get all data about a particular course
 app.get('/api/course', async (req, res) =>{
+  const user = req.query.token;
   var courseId = req.sanitize(req.query.classId);
-  var course = await Class.findById(courseId);
-  res.json(course);
+  console.log(user==true);
+  if(user){
+    var teach = jwt.verify(user, process.env.JWT_SECRET);
+    var courses = await Class.find({instructor: {instructorId: teach.id}});
+    console.log(courses)
+    res.json(courses);
+  }
+  else{
+    var course = await Class.findById(courseId);
+    res.json(course);
+  }
 })
 
 mongoose.connect(process.env.MONGO_URI, (err) =>{
