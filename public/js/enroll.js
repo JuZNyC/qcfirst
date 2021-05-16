@@ -11,8 +11,9 @@ function enroll(){
       window.location.replace(data.url);
     }
     else if(data.status == 'error'){
-      localStorage.setItem('fromRedirectError', 'Could not ernoll in a class, try again later');
+      localStorage.setItem('fromRedirectError', data.details);
       localStorage.removeItem('classId');
+      window.location.replace('/studentHomepage.html')
     }
   })
   .fail((error) =>{

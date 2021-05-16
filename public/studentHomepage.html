@@ -33,12 +33,20 @@
             <a class="nav-item nav-link active" href="lostUserPass.html"><strong>Lost Username/Password</strong></a>
         </div>
     </nav>
+
     <!-- Success alert for redirects -->
-    <div class="alert alert-success alert-dismissible fade show" role="alert" hidden>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <div class="alert alert-success alert-dismissible fade show" role="alert" hidden id="successAlert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
+    <!-- Error alert for redirects -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" hidden id="errorAlert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
     <div class="container text-center row-cols-md-auto">
             <p  id="enrollmentDeadline">Your enrollment deadline is:<br><span id="enrolmentDate">01/01/21</span></p>
     </div>
@@ -91,9 +99,14 @@
             }
         })
         if(localStorage.getItem("fromRedirectSuccess")){
-            $(".alert").append(`<strong>Success!</strong> ${localStorage.getItem("fromRedirectSuccess")}`);
-            $(".alert").removeAttr("hidden");
+            $("#successAlert").append(`<strong>Success!</strong> ${localStorage.getItem("fromRedirectSuccess")}`);
+            $("#successAlert").removeAttr("hidden");
             localStorage.removeItem("fromRedirectSuccess");
+        }
+        if(localStorage.getItem("fromRedirectError")){
+            $("#errorAlert").append(`<strong>Error!</strong> ${localStorage.getItem("fromRedirectError")}`);
+            $("#errorAlert").removeAttr("hidden");
+            localStorage.removeItem("fromRedirectError");
         }
     });
     function removeJWT(){

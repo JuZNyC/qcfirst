@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const User = require('./model/user');
 const Class = require('./model/class')
+const sideTools = require('./tools')
 const jwt = require('jsonwebtoken');
 const expressSanitizer = require('express-sanitizer');
 require('dotenv').config()
@@ -175,27 +176,45 @@ app.post('/api/enroll', async (req, res) =>{
     const user = jwt.verify(req.body.token, process.env.JWT_SECRET);
     var course = await Class.findById(classId);
     var student = await User.findById(user.id);
+    var startTime = course.schedule.from;
+    var endTime = course.schedule.to;
     if(course && student){
-      course.roster.push(student);
-      // student.registeredClasses.push(mongoose.Types.ObjectId(classId));
       var concSem = course.semester.season.slice(0,2) + course.semester.year.slice(2,);
       var idx = student.allClasses.findIndex(element => element.semester == concSem);
       console.log(`idx is: ${idx}`);
       if(idx >= 0 && idx != undefined){
-        console.log(`${student.allClasses} in idx != -1`)
+        for(var i = 0; i < student.allClasses[idx].registeredClasses.length; i++){
+          console.log(`all the classes are  ${student.allClasses[idx].registeredClasses}`);
+          var scndClass = await Class.findById(student.allClasses[idx].registeredClasses[i]);
+          console.log(`${i+1}: secondclass: ${scndClass._id}, main: ${classId}`);
+          if(String(scndClass._id) == String(classId)){  
+            return res.json({
+              status:'error',
+              details:'You have already signed up for this class'
+            });
+          }
+          else if(sideTools.timesOverlap(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days)){
+            return res.json({
+              status:'error',
+              details:'This class\'s times overlap with another class'
+            });
+          }
+        }
         student.allClasses[idx].registeredClasses.push(mongoose.Types.ObjectId(classId));
+        // console.log(`course roster: ${course.roster}`);
+        course.roster.push(student);
+        // console.log(`After pushing new student course roster: ${course.roster}`);
       }
       else{
         student.allClasses.push({
           semester:concSem,
           registeredClasses:[mongoose.Types.ObjectId(classId)]
         })
-        console.log(`${student.allClasses} in idx == -1`)
       }
       var savedStnt = await student.save();
       var savedCrs = await course.save();
     }
-    res.json({
+    return res.json({
       status:'ok/redirect',
       details: 'Succesfully registered for a class',
       url: '/studentHomepage.html'
@@ -203,7 +222,7 @@ app.post('/api/enroll', async (req, res) =>{
   }
   catch(error){
     console.log(error)
-    res.json({
+    return res.json({
       status: 'error',
       details: 'something went wrong',
       url: '/'
