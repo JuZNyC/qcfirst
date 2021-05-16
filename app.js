@@ -184,9 +184,9 @@ app.post('/api/enroll', async (req, res) =>{
       console.log(`idx is: ${idx}`);
       if(idx >= 0 && idx != undefined){
         for(var i = 0; i < student.allClasses[idx].registeredClasses.length; i++){
-          console.log(`all the classes are  ${student.allClasses[idx].registeredClasses}`);
           var scndClass = await Class.findById(student.allClasses[idx].registeredClasses[i]);
           console.log(`${i+1}: secondclass: ${scndClass._id}, main: ${classId}`);
+          console.log(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days)
           if(String(scndClass._id) == String(classId)){  
             return res.json({
               status:'error',

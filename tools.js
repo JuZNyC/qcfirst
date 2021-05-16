@@ -12,7 +12,8 @@ module.exports = {
     var bHourEnd = parseInt(nEnd.slice(0,2)) * 60;
     var bMinEnd = parseInt(nEnd.slice(3,));
     var bEndTot = bHourEnd + bMinEnd;
-    for(const day in oDays){
+    for(const day of oDays){
+      console.log(`Checking if ${day} is in ${nDays}: ${nDays.includes(day)}`)
         if(nDays.includes(day)){
             if((aStartTot <= bStartTot && bStartTot < aEndTot) || (aStartTot < bEndTot && bEndTot <= aEndTot)){
                 return true;
