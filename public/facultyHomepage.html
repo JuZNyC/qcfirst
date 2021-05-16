@@ -120,10 +120,10 @@
       if(localStorage.getItem("token") != null){
         $("#navbarNavAltMarkup").append('<a class="nav-item nav-link active" href="/" onclick="return removeJWT()"><strong>Logout</strong></a>');
       }
-      if(sessionStorage.getItem("fromRedirect")){
+      if(sessionStorage.getItem("fromRedirectSuccess")){
           $(".alert").append(`<strong>Success!</strong> ${sessionStorage.getItem("fromRedirect")}`);
           $(".alert").removeAttr("hidden");
-          sessionStorage.removeItem("fromRedirect");
+          sessionStorage.removeItem("fromRedirectSuccess");
       }
     });
     function removeJWT(){

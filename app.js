@@ -100,12 +100,20 @@ app.post('/api/validateAccess', async (req, res) => {
     '/classInfo.html': 'faculty'
   };
   var path = new URL(req.headers.referer).pathname
-  const user = jwt.verify(req.body.token, process.env.JWT_SECRET);
-  // var pos = path.slice(1, path.indexOf('.')); 
-  if(user.userType != accessLevels[path]){
+  try{
+    const user = jwt.verify(req.body.token, process.env.JWT_SECRET);
+    if(user.userType != accessLevels[path]){
+      res.json({
+        status: 'redirect',
+        url: '/'
+      })
+    }
+  }
+  catch(error){
+    console.log(error)
     res.json({
-      status: 'redirect',
-      url: '/'
+      status: 'error',
+      details: "Please try not to hack us, redirecting..."
     })
   }
 })
@@ -159,6 +167,38 @@ app.post("/api/login", async (req, res) =>{
     console.log(error)
   }
 });
+
+// TODO
+app.post('/api/enroll', async (req, res) =>{
+  try{
+    const classId = req.body.classId; 
+    const user = jwt.verify(req.body.token, process.env.JWT_SECRET);
+    console.log(user, classId)
+    var course = await Class.findById(classId);
+    var student = await User.findById(user.id);
+    if(course && student){
+      console.log(course, student)
+      course.roster.push(student);
+      student.registeredClasses.push(mongoose.Types.ObjectId(classId));
+      console.log(course, student);
+      var savedStnt = await student.save();
+      var savedCrs = await course.save();
+    }
+    res.json({
+      status:'ok/redirect',
+      details: 'Succesfully registered for a class',
+      url: '/studentHomepage.html'
+    });
+  }
+  catch(error){
+    console.log(error)
+    res.json({
+      status: 'error',
+      details: 'something went wrong',
+      url: '/'
+    })
+  }
+})
 
 app.get('/api/faculty', async (req, res) =>{
   User.find({userType: 'faculty'})

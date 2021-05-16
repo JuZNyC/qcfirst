@@ -102,7 +102,7 @@ function checkForm(){
         .done((data) =>{
             console.log(data.status);
             if(data.status == 'ok/redirect'){
-                sessionStorage.setItem('fromRedirect', 'Created a new class');
+                sessionStorage.setItem('fromRedirectSuccess', 'Created a new class');
                 window.location.replace(data.url);
             }
             else if(data.status == 'error'){

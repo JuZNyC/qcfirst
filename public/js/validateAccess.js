@@ -6,6 +6,16 @@ if(localStorage.getItem("token") != null){
             window.location.replace(data.url);
             alert('You are not supposed to be here...\nRedirecting');
         }
+        else if(data.status == 'error'){
+            localStorage.removeItem("token");
+            window.location.replace('/');
+            alert(`Not cool: ${data.details}`)
+        }
+    })
+    .fail((error) =>{
+        localStorage.removeItem("token");
+        window.location.replace('/');
+        alert('Not cool')
     })
 }
 else{
