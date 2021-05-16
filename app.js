@@ -50,6 +50,7 @@ app.post('/api/createUser', async (req, res) =>{
     
 });
 
+// Creates a new class and stores in the database
 app.post('/api/createClass', async (req, res) =>{
   var course = new Class({
     semester: {season: req.body.season, year: req.body.year},
@@ -70,6 +71,7 @@ app.post('/api/createClass', async (req, res) =>{
     }
   });
   try{
+    // Secondary validation to make sure only faculty members can create classes
     const user = jwt.verify(req.body.token, process.env.JWT_SECRET)
     if(user.userType == 'faculty'){
       var savedClass = await course.save();
@@ -169,7 +171,8 @@ app.post("/api/login", async (req, res) =>{
   }
 });
 
-// TODO
+// Allows students to enroll in classes for a particular semester
+// POST attributes: classId (objectID) of the class to enroll in, and the users JWT toekn
 app.post('/api/enroll', async (req, res) =>{
   try{
     const classId = req.body.classId; 
@@ -179,20 +182,26 @@ app.post('/api/enroll', async (req, res) =>{
     var startTime = course.schedule.from;
     var endTime = course.schedule.to;
     if(course && student){
+      // Each user stores all their classes in an Object array, where each Object consists of a single
+      // semester and an array of class _id'
       var concSem = course.semester.season.slice(0,2) + course.semester.year.slice(2,);
       var idx = student.allClasses.findIndex(element => element.semester == concSem);
       console.log(`idx is: ${idx}`);
+      // If the student has already registered for classes for this particular semester:
       if(idx >= 0 && idx != undefined){
+        //Iterate over all the classes and grab their data
         for(var i = 0; i < student.allClasses[idx].registeredClasses.length; i++){
           var scndClass = await Class.findById(student.allClasses[idx].registeredClasses[i]);
-          console.log(`${i+1}: secondclass: ${scndClass._id}, main: ${classId}`);
-          console.log(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days)
+          console.log(`${i+1}: secondclass: ${scndClass._id}, main: ${classId}`); // For debugging
+          console.log(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days) // For debugging
+          // If the student already registered for this class
           if(String(scndClass._id) == String(classId)){  
             return res.json({
               status:'error',
               details:'You have already signed up for this class'
             });
           }
+          // tools.js contains a function to help determine if course times overlap
           else if(sideTools.timesOverlap(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days)){
             return res.json({
               status:'error',
@@ -200,11 +209,14 @@ app.post('/api/enroll', async (req, res) =>{
             });
           }
         }
+        // Once we determined that there are no issues with registering, add the student to class roster, and add the class ID to the students registered classes
         student.allClasses[idx].registeredClasses.push(mongoose.Types.ObjectId(classId));
-        // console.log(`course roster: ${course.roster}`);
+        // console.log(`course roster: ${course.roster}`); // For debugging
         course.roster.push(student);
-        // console.log(`After pushing new student course roster: ${course.roster}`);
+        // console.log(`After pushing new student course roster: ${course.roster}`); // For debugging
       }
+
+      // If this is the students first time registering for a class for this particular semester or in general:
       else{
         student.allClasses.push({
           semester:concSem,
@@ -230,6 +242,7 @@ app.post('/api/enroll', async (req, res) =>{
   }
 })
 
+// Get all users of usertype == 'faculty'
 app.get('/api/faculty', async (req, res) =>{
   User.find({userType: 'faculty'})
   .then((result) =>{
@@ -241,15 +254,20 @@ app.get('/api/faculty', async (req, res) =>{
   })
 })
 
+// Get the distinct name of all departments
 app.get('/api/departments', async (req, res) =>{
   var deps = await Class.distinct('department');
   res.json(deps);
 })
 
+// Search for a specific course in a specific department. Users can search by class number or name, 
+// otherwise return all courses in specific department.
 app.get('/api/:department/courses', async (req, res) =>{
   var courseNum = req.sanitize(req.query.courseNum);
   var dept = req.params.department;
+  // If we have a search parameter:
   if(courseNum){
+    // Check if it's a number, and if so send back that course
     if(parseInt(courseNum)){
       courseNum=parseInt(courseNum);
       var course = await Class.find({
@@ -259,6 +277,7 @@ app.get('/api/:department/courses', async (req, res) =>{
         ]})
         res.json(course);
     }
+    // If it's not a number, look for courses of a similar name
     else{
       var course = await Class.find({
         $and:[
@@ -268,6 +287,7 @@ app.get('/api/:department/courses', async (req, res) =>{
         res.json(course);    
       }
   }
+  // If no query parameter is supplied, return all courses
   else{
     var course = await Class.find({
       department:dept
@@ -276,6 +296,7 @@ app.get('/api/:department/courses', async (req, res) =>{
   }
 })
 
+// Get all data about a particular course
 app.get('/api/course', async (req, res) =>{
   var courseId = req.sanitize(req.query.classId);
   var course = await Class.findById(courseId);
