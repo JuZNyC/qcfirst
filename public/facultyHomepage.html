@@ -121,7 +121,7 @@
         $("#navbarNavAltMarkup").append('<a class="nav-item nav-link active" href="/" onclick="return removeJWT()"><strong>Logout</strong></a>');
       }
       if(sessionStorage.getItem("fromRedirectSuccess")){
-          $(".alert").append(`<strong>Success!</strong> ${sessionStorage.getItem("fromRedirect")}`);
+          $(".alert").append(`<strong>Success!</strong> ${sessionStorage.getItem("fromRedirectSuccess")}`);
           $(".alert").removeAttr("hidden");
           sessionStorage.removeItem("fromRedirectSuccess");
       }

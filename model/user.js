@@ -1,8 +1,15 @@
 const mongoose = require('mongoose');
 const Class = require('./class');
-
-
 const Schema = mongoose.Schema;
+
+const semesterScheduleSchema = new Schema(
+    {
+        semester: {type: String, required:true},
+        registeredClasses : [{type: Schema.Types.ObjectId, ref: Class}]
+    }
+)
+
+
 var personSchema = new Schema(
     {
         firstName : {type: String, required: true},
@@ -10,7 +17,7 @@ var personSchema = new Schema(
         email : {type: String, required: true, index: { unique: true }},
         password : {type: String, required: true},
         userType: {type: String, enum: ["student", "faculty"]},
-        registeredClasses : [{type: Schema.Types.ObjectId, ref: Class}]
+        allClasses : [semesterScheduleSchema]
     },
     {collection: 'users'}
 );

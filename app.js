@@ -173,14 +173,25 @@ app.post('/api/enroll', async (req, res) =>{
   try{
     const classId = req.body.classId; 
     const user = jwt.verify(req.body.token, process.env.JWT_SECRET);
-    console.log(user, classId)
     var course = await Class.findById(classId);
     var student = await User.findById(user.id);
     if(course && student){
-      console.log(course, student)
       course.roster.push(student);
-      student.registeredClasses.push(mongoose.Types.ObjectId(classId));
-      console.log(course, student);
+      // student.registeredClasses.push(mongoose.Types.ObjectId(classId));
+      var concSem = course.semester.season.slice(0,2) + course.semester.year.slice(2,);
+      var idx = student.allClasses.findIndex(element => element.semester == concSem);
+      console.log(`idx is: ${idx}`);
+      if(idx >= 0 && idx != undefined){
+        console.log(`${student.allClasses} in idx != -1`)
+        student.allClasses[idx].registeredClasses.push(mongoose.Types.ObjectId(classId));
+      }
+      else{
+        student.allClasses.push({
+          semester:concSem,
+          registeredClasses:[mongoose.Types.ObjectId(classId)]
+        })
+        console.log(`${student.allClasses} in idx == -1`)
+      }
       var savedStnt = await student.save();
       var savedCrs = await course.save();
     }

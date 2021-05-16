@@ -19,6 +19,8 @@ $(document).ready(()=>{
                 comDays = comDays.concat(`${dayShort[val]}/`);
             })
             comDays = comDays.slice(0, -1);
+            var newFrom = toAMPM(data.schedule.from);
+            var newTo = toAMPM(data.schedule.to)
             console.log(`${data.schedule.from} - ${data.schedule.to}`);
             $("#className").attr("placeholder", data.name);
             $("#classCapacity").attr("placeholder", `${data.roster.length}/${data.capacity}`);
@@ -26,10 +28,16 @@ $(document).ready(()=>{
             $("#courseDesc").attr("placeholder", data.description);
             $("#semester").attr("placeholder", `${data.semester.season.charAt(0).toUpperCase() + data.semester.season.slice(1)} ${data.semester.year}`);
             $("#scheduleDays").attr("placeholder", `${comDays}`);
-            $("#scheduleTime").attr("placeholder", `${data.schedule.from} - ${data.schedule.to}`);
+            $("#scheduleTime").attr("placeholder", `${newFrom} - ${newTo}`);
         })
-        }
+      }
   });
   function removeJWT(){
     localStorage.removeItem("token");
+  }
+
+  function toAMPM(time){
+    var suffix = (parseInt(time.slice(0,2)) >= 12)? 'PM' : 'AM';
+    var newhour = ((parseInt(time.slice(0,2)) + 11) % 12 + 1) + ":" + time.slice(3,);
+    return `${newhour} ${suffix}`;
   }
