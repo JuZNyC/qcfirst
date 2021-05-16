@@ -4,6 +4,7 @@ document.getElementById("searchBox").addEventListener("submit", (event) =>{
 });
 
 function getData(){
+    const href = window.location.pathname == '/facultyHomepage.html' ? 'classInfo.html' : 'enroll.html';
     const dept = $("#departmentsDropdown");
     const userQuery = $("#userQuery");
     const resultArea = $("#box-of-results");
@@ -16,7 +17,7 @@ function getData(){
                 var newResult = $('<div>', {class:"search-result"})
                 .append($('<h3>')
                 .append($('<a>',{
-                    href:`enroll.html`,
+                    href:`${href}`,
                     text: `${val.number}`,
                     onclick: `return passOID('${val._id}')`
                 })))
