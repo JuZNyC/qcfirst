@@ -69,9 +69,11 @@ body {
 }
 
 #classNameFaculty,
-#classCapFaculty {
+#classCapFaculty,
+#semester {
   color: cadetblue;
   font-size: 1.75rem;
+  text-transform: uppercase;
 }
 
 /* Form Validation Stuff, based on https://www.youtube.com/watch?v=rsd4FNGTRBw */

@@ -189,6 +189,13 @@ app.post('/api/enroll', async (req, res) =>{
           details:'Enrollment deadline already passed for this class'
         });
       }
+      // Then confirm that the capacity hasn't been exceded
+      else if(course.roster.length >= course.capacity){
+        return res.json({
+          status:'error',
+          details:'Capacity already reached for this class'
+        });
+      }
 
       // Each user stores all their classes in an Object array, where each Object consists of a single
       // semester and an array of class _id'
@@ -200,9 +207,9 @@ app.post('/api/enroll', async (req, res) =>{
         //Iterate over all the classes and grab their data
         for(var i = 0; i < student.allClasses[idx].registeredClasses.length; i++){
           var scndClass = await Class.findById(student.allClasses[idx].registeredClasses[i]);
-          var scndClassSem = scndClass.semester.season.slice(0,2) + scndClass.semester.year.slice(2,);
           // If the student already registered for this class
           try{
+            var scndClassSem = scndClass.semester.season.slice(0,2) + scndClass.semester.year.slice(2,);
             if(String(scndClass._id) == String(classId)){  
               return res.json({
                 status:'error',
@@ -225,8 +232,6 @@ app.post('/api/enroll', async (req, res) =>{
         // Once we determined that there are no issues with registering, add the student to class roster, and add the class ID to the students registered classes
         course.roster.push(student);
         student.allClasses[idx].registeredClasses.push(mongoose.Types.ObjectId(classId));
-        // console.log(`course roster: ${course.roster}`); // For debugging
-        // console.log(`After pushing new student course roster: ${course.roster}`); // For debugging
       }
 
       // If this is the students first time registering for a class for this particular semester or in general:
