@@ -182,18 +182,25 @@ app.post('/api/enroll', async (req, res) =>{
     var startTime = course.schedule.from;
     var endTime = course.schedule.to;
     if(course && student){
+      // First confirm that final enrollment date hasn't passed
+      if(new Date() > course.enrollmentDeadline){
+        return res.json({
+          status:'error',
+          details:'Enrollment deadline already passed for this class'
+        });
+      }
+
       // Each user stores all their classes in an Object array, where each Object consists of a single
       // semester and an array of class _id'
       var concSem = course.semester.season.slice(0,2) + course.semester.year.slice(2,);
       var idx = student.allClasses.findIndex(element => element.semester == concSem);
-      // console.log(`idx is: ${idx}`); // For debugging
+
       // If the student has already registered for classes for this particular semester:
       if(idx >= 0 && idx != undefined){
         //Iterate over all the classes and grab their data
         for(var i = 0; i < student.allClasses[idx].registeredClasses.length; i++){
           var scndClass = await Class.findById(student.allClasses[idx].registeredClasses[i]);
-          // console.log(`${i+1}: secondclass: ${scndClass._id}, main: ${classId}`); // For debugging
-          // console.log(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days) // For debugging
+          var scndClassSem = scndClass.semester.season.slice(0,2) + scndClass.semester.year.slice(2,);
           // If the student already registered for this class
           try{
             if(String(scndClass._id) == String(classId)){  
@@ -204,7 +211,7 @@ app.post('/api/enroll', async (req, res) =>{
           }
         
           // tools.js contains a function to help determine if course times overlap
-          else if(sideTools.timesOverlap(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days)){
+          else if(concSem == scndClassSem && sideTools.timesOverlap(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days)){
             return res.json({
               status:'error',
               details:'This class\'s times overlap with another class'
