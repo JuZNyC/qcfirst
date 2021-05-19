@@ -45,19 +45,20 @@ $(document).ready(()=>{
                 href:`/classInfo.html`,
                 text:val.name,
                 onclick:`return passOID('${val._id}')`
-            })
+            });
             console.log(`new link: ${newLink}`)
             menu.append(newLink);
         })
         }
         else{
             console.log(`No data returned, appending new thing`);
-            menu.append($('<a>'),{
+            var newLink = $('<a>',{
                 class:'dropdown-item',
                 href: "#",
                 value:'Nope',
                 text: 'You have no classes'
-            })
+            });
+            menu.append(newLink);
         }
       })
 })
