@@ -9,9 +9,7 @@ $(document).ready(()=>{
             const resultArea = $(".ibox-content");
             $("#classNameFaculty").text(data.name);
             $("#classCapFaculty").text(`${data.roster.length}/${data.capacity}`);
-            console.log(data.roster.length === 0)
             if(data.roster.length === 0){
-                console.log("made it to the if");
                 resultArea.append('<div>',{class: "search-result"})
                 .append($('<h3>', {
                     text:`No students Registered`
@@ -19,7 +17,6 @@ $(document).ready(()=>{
             }
             else{
                 resultArea.append($("<div>", {class:"hr-line-dashed"}));
-                console.log('Made it to the else');
                 $.each(data.roster, (idx, val) =>{
                     var newResult = $('<div>', {class:"search-result"})
                     .append($('<h3>', {
@@ -35,7 +32,40 @@ $(document).ready(()=>{
             }
         })
       }
+
+    //   TODO Get dropdown menu working
+      $.get(`/api/course?token=${localStorage.getItem("token")}`)
+      .done((data)=>{
+        const menu = $("#classesDropdown");
+        if(data.length != 0){
+            console.log(`data returned: ${data}`);
+            $.each(data, (idx, val) =>{
+            var newLink = $('<a>',{
+                class:'dropdown-item',
+                href:`/classInfo.html`,
+                text:val.name,
+                onclick:`return passOID('${val._id}')`
+            })
+            console.log(`new link: ${newLink}`)
+            menu.append(newLink);
+        })
+        }
+        else{
+            console.log(`No data returned, appending new thing`);
+            menu.append($('<a>'),{
+                class:'dropdown-item',
+                href: "#",
+                value:'Nope',
+                text: 'You have no classes'
+            })
+        }
+      })
 })
 function removeJWT(){
     localStorage.removeItem("token");
+}
+
+function passOID(oid){
+    localStorage.setItem("classId", oid);
+    return true;
 }

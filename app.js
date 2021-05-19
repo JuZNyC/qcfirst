@@ -58,7 +58,7 @@ app.post('/api/createClass', async (req, res) =>{
     name: req.sanitize(req.body.name),
     number: req.sanitize(req.body.number),
     instructor: {
-      instructorId: new mongoose.Types.ObjectId(req.body.instructor),
+      instructorId: mongoose.Types.ObjectId(req.body.instructor),
       instructorName: req.body.instructorName 
     },
     description: req.sanitize(req.body.courseDesc),
@@ -186,14 +186,14 @@ app.post('/api/enroll', async (req, res) =>{
       // semester and an array of class _id'
       var concSem = course.semester.season.slice(0,2) + course.semester.year.slice(2,);
       var idx = student.allClasses.findIndex(element => element.semester == concSem);
-      console.log(`idx is: ${idx}`);
+      // console.log(`idx is: ${idx}`); // For debugging
       // If the student has already registered for classes for this particular semester:
       if(idx >= 0 && idx != undefined){
         //Iterate over all the classes and grab their data
         for(var i = 0; i < student.allClasses[idx].registeredClasses.length; i++){
           var scndClass = await Class.findById(student.allClasses[idx].registeredClasses[i]);
           // console.log(`${i+1}: secondclass: ${scndClass._id}, main: ${classId}`); // For debugging
-          console.log(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days) // For debugging
+          // console.log(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days) // For debugging
           // If the student already registered for this class
           if(String(scndClass._id) == String(classId)){  
             return res.json({
@@ -213,7 +213,7 @@ app.post('/api/enroll', async (req, res) =>{
         course.roster.push(student);
         student.allClasses[idx].registeredClasses.push(mongoose.Types.ObjectId(classId));
         // console.log(`course roster: ${course.roster}`); // For debugging
-        console.log(`After pushing new student course roster: ${course.roster}`); // For debugging
+        // console.log(`After pushing new student course roster: ${course.roster}`); // For debugging
       }
 
       // If this is the students first time registering for a class for this particular semester or in general:
@@ -301,11 +301,9 @@ app.get('/api/:department/courses', async (req, res) =>{
 app.get('/api/course', async (req, res) =>{
   const user = req.query.token;
   var courseId = req.sanitize(req.query.classId);
-  console.log(user==true);
   if(user){
     var teach = jwt.verify(user, process.env.JWT_SECRET);
-    var courses = await Class.find({instructor: {instructorId: teach.id}});
-    console.log(courses)
+    var courses = await Class.find({'instructor.instructorId': mongoose.Types.ObjectId(teach.id)});
     res.json(courses);
   }
   else{

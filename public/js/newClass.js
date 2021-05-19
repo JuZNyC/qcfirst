@@ -6,7 +6,7 @@ function checkForm(){
     const className = $("#className");
     const capacity = $("#classCapacity");
     const courseNum = $("#courseNum");
-    const instructor = $("#courseInstructor options:selected").val();
+    const instructor = $("#courseInstructor option:selected");
     const department = $("#dept").val();
     const courseDesc = $("#courseDesc").val();
     const enrollmentDate = $("#enrDt").val();
@@ -56,7 +56,6 @@ function checkForm(){
     else{
         handleSuccess(courseNum);
     }
-    console.log(fromTime.val() >= toTime.val());
     if(fromTime.val() >= toTime.val()){
         handleError(timeBlock, posErrors.invTimes);
         foundErrors = true;
@@ -78,7 +77,6 @@ function checkForm(){
         foundErrors = true;
     }
     else{
-        console.log(weekdays);
         handleSuccess(daysBlock)
     }
 
@@ -91,16 +89,15 @@ function checkForm(){
             name: className.val(),
             capacity: capacity.val(),
             number: courseNum.val(),
-            instructor: instructor,
+            instructor: instructor.val(),
             department: department,
             courseDesc: courseDesc,
             enrollmentDate: enrollmentDate,
             days: weekdays,
-            instructorName: $("#courseInstructor option:selected").text(),
+            instructorName: instructor.text(),
             token: localStorage.getItem("token")
         })
         .done((data) =>{
-            console.log(data.status);
             if(data.status == 'ok/redirect'){
                 sessionStorage.setItem('fromRedirectSuccess', 'Created a new class');
                 window.location.replace(data.url);
