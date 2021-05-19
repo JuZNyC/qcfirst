@@ -34,11 +34,17 @@
       </nav>
 
       <!-- Success alert for redirects -->
-      <div class="alert alert-success alert-dismissible fade show" role="alert" hidden>
+      <div class="alert alert-success alert-dismissible fade show" role="alert" hidden id="successAlert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+         <!-- Error alert for redirects -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" hidden id="errorAlert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 
       <!-- Create a new class -->
         <div class="container">
@@ -104,10 +110,15 @@
             }
         })
       if(sessionStorage.getItem("fromRedirectSuccess")){
-          $(".alert").append(`<strong>Success!</strong> ${sessionStorage.getItem("fromRedirectSuccess")}`);
-          $(".alert").removeAttr("hidden");
+          $("#successAlert").append(`<strong>Success!</strong> ${sessionStorage.getItem("fromRedirectSuccess")}`);
+          $("#successAlert").removeAttr("hidden");
           sessionStorage.removeItem("fromRedirectSuccess");
       }
+      if(localStorage.getItem("fromRedirectError")){
+        $("#errorAlert").append(`<strong>Error!</strong> ${localStorage.getItem("fromRedirectError")}`);
+        $("#errorAlert").removeAttr("hidden");
+        localStorage.removeItem("fromRedirectError");
+    }
     });
     function removeJWT(){
       localStorage.removeItem("token");

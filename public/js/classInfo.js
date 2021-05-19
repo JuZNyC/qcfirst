@@ -7,8 +7,11 @@ $(document).ready(()=>{
         $.get(`/api/course?classId=${localStorage.getItem("classId")}`)
         .done((data)=>{
             const resultArea = $(".ibox-content");
+            const concSem = data.semester.season.slice(0,2) + data.semester.year.slice(2,);
             $("#classNameFaculty").text(data.name);
             $("#classCapFaculty").text(`${data.roster.length}/${data.capacity}`);
+            $("#semester").text(`${data.semester.season} ${data.semester.year}`);
+            $("#semToSend").val(concSem); 
             if(data.roster.length === 0){
                 resultArea.append('<div>',{class: "search-result"})
                 .append($('<h3>', {
@@ -33,7 +36,7 @@ $(document).ready(()=>{
         })
       }
 
-    //   TODO Get dropdown menu working
+      // Dropdown menu of teachers classes
       $.get(`/api/course?token=${localStorage.getItem("token")}`)
       .done((data)=>{
         const menu = $("#classesDropdown");
@@ -61,6 +64,24 @@ $(document).ready(()=>{
             menu.append(newLink);
         }
       })
+
+      // Delete a class functionality
+      $("#deleteClass").click(()=>{
+        $.ajax({
+            url:`/api/${localStorage.getItem("classId")}/deleteCourse/${$("#semToSend").val()}`,
+            type: 'DELETE',
+            success:((result)=>{
+                if(result.status == 'ok/redirect'){
+                    sessionStorage.setItem('fromRedirectSuccess', `${result.details}`);
+                    window.location.replace(result.url);
+                }
+                else if(data.status == 'error'){
+                    sessionStorage.setItem('fromRedirectError', `${result.details}`);
+                    window.location.replace(result.url);
+                }
+            })
+        })
+    });
 })
 function removeJWT(){
     localStorage.removeItem("token");
@@ -70,3 +91,4 @@ function passOID(oid){
     localStorage.setItem("classId", oid);
     return true;
 }
+

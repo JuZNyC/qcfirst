@@ -195,18 +195,24 @@ app.post('/api/enroll', async (req, res) =>{
           // console.log(`${i+1}: secondclass: ${scndClass._id}, main: ${classId}`); // For debugging
           // console.log(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days) // For debugging
           // If the student already registered for this class
-          if(String(scndClass._id) == String(classId)){  
-            return res.json({
-              status:'error',
-              details:'You have already signed up for this class'
-            });
+          try{
+            if(String(scndClass._id) == String(classId)){  
+              return res.json({
+                status:'error',
+                details:'You have already signed up for this class'
+              });
           }
+        
           // tools.js contains a function to help determine if course times overlap
           else if(sideTools.timesOverlap(startTime, endTime, course.schedule.days, scndClass.schedule.from, scndClass.schedule.to, scndClass.schedule.days)){
             return res.json({
               status:'error',
               details:'This class\'s times overlap with another class'
             });
+          }
+        }
+          catch(error){
+            // Catch class id's of deleted classes, do nothing 
           }
         }
         // Once we determined that there are no issues with registering, add the student to class roster, and add the class ID to the students registered classes
@@ -309,6 +315,39 @@ app.get('/api/course', async (req, res) =>{
   else{
     var course = await Class.findById(courseId);
     res.json(course);
+  }
+})
+
+//Delete a course
+app.delete('/api/:courseId/deleteCourse/:sem', async(req, res) => {
+  const id = req.params.courseId;
+  const sem = req.params.sem;
+  try{
+    Class.findByIdAndRemove(id, (err)=>{
+      if(err){
+        console.log(err);
+        res.json({
+          status:'error',
+          details:'Something went wrong while deleteing',
+          url:'/facultyHomepage'
+        })
+      }
+      else{
+        res.json({
+          status:'ok/redirect',
+          details: 'Successfully deleted a class',
+          url:'/facultyHomepage.html'
+        })
+      }
+    });
+  }
+  catch(error){
+    console.log(error);
+    res.json({
+      status:'error',
+      details:'Something went wrong while deleteing',
+      url:'/facultyHomepage.html'
+    })
   }
 })
 
