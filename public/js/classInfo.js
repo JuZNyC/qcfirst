@@ -67,21 +67,25 @@ $(document).ready(()=>{
 
       // Delete a class functionality
       $("#deleteClass").click(()=>{
-        $.ajax({
-            url:`/api/${localStorage.getItem("classId")}/deleteCourse/${$("#semToSend").val()}`,
-            type: 'DELETE',
-            success:((result)=>{
-                if(result.status == 'ok/redirect'){
-                    sessionStorage.setItem('fromRedirectSuccess', `${result.details}`);
-                    window.location.replace(result.url);
-                }
-                else if(data.status == 'error'){
-                    sessionStorage.setItem('fromRedirectError', `${result.details}`);
-                    window.location.replace(result.url);
-                }
-            })
-        })
-    });
+        if(confirm('Are you sure you would like to delete this class?')){
+            $.ajax({
+                url:`/api/${localStorage.getItem("classId")}/deleteCourse/${$("#semToSend").val()}`,
+                type: 'DELETE',
+                success:((result)=>{
+                    if(result.status == 'ok/redirect'){
+                        sessionStorage.setItem('fromRedirectSuccess', `${result.details}`);
+                        window.location.replace(result.url);
+                    }
+                    else if(data.status == 'error'){
+                        sessionStorage.setItem('fromRedirectError', `${result.details}`);
+                        window.location.replace(result.url);
+                    }
+                })
+            })}
+        else{
+            return false; 
+        }
+        });
 })
 function removeJWT(){
     localStorage.removeItem("token");
