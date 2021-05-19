@@ -6,7 +6,7 @@ function checkForm(){
     const className = $("#className");
     const capacity = $("#classCapacity");
     const courseNum = $("#courseNum");
-    const instructor = $("#courseInstructor option:selected");
+    const instructor = $("#courseInstructor");
     const department = $("#dept").val();
     const courseDesc = $("#courseDesc").val();
     const enrollmentDate = $("#enrDt").val();
@@ -89,12 +89,12 @@ function checkForm(){
             name: className.val(),
             capacity: capacity.val(),
             number: courseNum.val(),
-            instructor: instructor.val(),
+            instructor: instructor.attr('placeholder'),
             department: department,
             courseDesc: courseDesc,
             enrollmentDate: enrollmentDate,
             days: weekdays,
-            instructorName: instructor.text(),
+            instructorName: instructor.val(),
             token: localStorage.getItem("token")
         })
         .done((data) =>{

@@ -16,7 +16,7 @@ var personSchema = new Schema(
         lastName: {type: String, required: true},
         email : {type: String, required: true, index: { unique: true }},
         password : {type: String, required: true},
-        userType: {type: String, enum: ["student", "faculty"]},
+        userType: {type: String, enum: ["student", "faculty", "admin"]},
         allClasses : [semesterScheduleSchema]
     },
     {collection: 'users'}

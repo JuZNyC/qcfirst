@@ -61,8 +61,9 @@
             <div class="row g-3">
               <div class="col-md-4 mb-3">
                 <label for="courseInstructor">Instructor</label>
-                <select class="form-select form-control" aria-label="Default select example" id="courseInstructor">
-                </select> 
+                <!-- <select class="form-select form-control" aria-label="Default select example" id="courseInstructor">
+                </select>  -->
+                <input type="text" class="form-control" id="courseInstructor" placeholder="" readonly>
                 <small></small>              
               </div>
               <div class="col-md-4 mb-3">
@@ -167,16 +168,13 @@
       if(localStorage.getItem("token") != null){
         $("#navbarNavAltMarkup").append('<a class="nav-item nav-link active" href="/" onclick="return removeJWT()"><strong>Logout</strong></a>');
       }
-      // This loads the instructor dropdwon select option with all the faculty members 
-      $.get('/api/faculty')
+      // This sets the instructor as the  
+      $.get(`/api/faculty?token=${localStorage.getItem("token")}`)
       .done((data) =>{
+        console.log(data);
         if(data){
-          $.each(data, (idx, val) =>{
-            $("#courseInstructor").append($('<option>',{
-              value: val._id,
-              text : `${val.firstName} ${val.lastName}`
-            }))
-          })
+          $("#courseInstructor").val(`${data.firstName} ${data.lastName}`)
+          .attr('placeholder', `${data._id}`);
         }
       })
 

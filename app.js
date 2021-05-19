@@ -106,7 +106,8 @@ app.post('/api/validateAccess', async (req, res) => {
   try{
     const user = jwt.verify(req.body.token, process.env.JWT_SECRET);
     if(user.userType != accessLevels[path]){
-      res.json({
+      if(user.userType == 'admin') return; 
+      return res.json({
         status: 'redirect',
         url: '/'
       })
@@ -114,7 +115,7 @@ app.post('/api/validateAccess', async (req, res) => {
   }
   catch(error){
     console.log(error)
-    res.json({
+    return res.json({
       status: 'error',
       details: "Please try not to hack us, redirecting..."
     })
@@ -261,16 +262,28 @@ app.post('/api/enroll', async (req, res) =>{
   }
 })
 
-// Get all users of usertype == 'faculty'
+// Get all or specific users of usertype == 'faculty'
 app.get('/api/faculty', async (req, res) =>{
-  User.find({userType: 'faculty'})
-  .then((result) =>{
-    res.send(result)
-  })
-  .catch((error) =>{
-    console.log(error);
-    res.send("No faculty")
-  })
+  const user = req.query.token;
+  if(user){
+    console.log(`user is : ${user}`);
+    var teach = jwt.verify(user, process.env.JWT_SECRET);
+    console.log(`teach is : ${teach.id}`);
+    User.findById(teach.id)
+    .then((result) =>{
+      return res.send(result);
+    })
+  }
+  else{
+    User.find({userType: 'faculty'})
+    .then((result) =>{
+      return res.send(result)
+    })
+    .catch((error) =>{
+      console.log(error);
+      return res.send("No faculty")
+    })
+  }
 })
 
 // Get the distinct name of all departments
@@ -345,6 +358,7 @@ app.delete('/api/:courseId/deleteCourse/:sem', async(req, res) => {
         })
       }
       else{
+        console.log('Deleted a class');
         res.json({
           status:'ok/redirect',
           details: 'Successfully deleted a class',

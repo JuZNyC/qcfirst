@@ -14,7 +14,6 @@
             crossorigin="anonymous"></script>      
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
         <script src="./js/validateAccess.js"></script>
-        <script src="./js/search.js" defer></script>
     </head>
     <body>
       
@@ -51,7 +50,7 @@
             <div class="row justify-content-md-center">
                     <a href="createAClass.html" class="btn btn-primary" style="padding: 15px; font-size:1.5rem; margin-top:10px;">Create a Class</a>
             </div><br>
-            <p class="display-4 text-center">OR</p>
+            <p class="display-4 text-center">OR LOOK AT ONE OF YOUR CLASSES</p>
         </div>
 
         <!-- Search for a class -->
@@ -65,20 +64,6 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-content">
-                            <div class="search-form">
-                                <form id="searchBox">
-                                    <div class="input-group mb-0">
-                                      <div class="input-group-prepend">
-                                          <select class="form-select form-control" id="departmentsDropdown" style="width:auto">
-                                            </select>                                      
-                                      </div>
-                                      <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Search for a class name or number" id="userQuery" style="width:auto">
-                                          <div class="input-group-append">
-                                              <button class="btn btn-primary" type="submit">Search</button>
-                                          </div>
-                                    </div>
-                                </form>
-                            </div>
                             <div id="box-of-results">
                             </div>
                         </div>
@@ -96,19 +81,37 @@
       if(localStorage.getItem("token") != null){
         $("#navbarNavAltMarkup").append('<a class="nav-item nav-link active" href="/" onclick="return removeJWT()"><strong>Logout</strong></a>');
       }
-      $.get('/api/departments')
-        .done((data) =>{
-            if(data){
-            $.each(data, (idx, val) =>{
-                    var newVal = val;
-                    newVal = newVal.replace(/\s+/g, '-').toLowerCase();
-                    $("#departmentsDropdown").append($('<option>',{
-                    value: val,
-                    text : val
+      $.get(`/api/course?token=${localStorage.getItem("token")}`)
+      .done((data)=>{
+        const resultArea = $("#box-of-results");
+        if(data.length != 0){
+            resultArea.append($("<div>", {class:"hr-line-dashed"}));
+                $.each(data, (idx, val) =>{
+                    var newResult = $('<div>', {class:"search-result"})
+                    .append($('<h3>')
+                    .append($('<a>',{
+                        href:`/classInfo.html`,
+                        text: `${val.number}`,
+                        onclick: `return passOID('${val._id}')`
+                    })))
+                    .append($('<p>',{
+                        text: val.name
                     }))
-                })
-            }
-        })
+                    .append($('<input>',{
+                        value: val._id,
+                        type:"hidden"
+                    }));
+                    resultArea.append(newResult);
+                    resultArea.append($("<div>", {class:"hr-line-dashed"}))
+            })
+        }
+        else{
+            resultArea.append($('<p>', {
+                text: 'You don\'t teach any classes',
+                class: 'text-center'
+            }))
+        }
+      })
       if(sessionStorage.getItem("fromRedirectSuccess")){
           $("#successAlert").append(`<strong>Success!</strong> ${sessionStorage.getItem("fromRedirectSuccess")}`);
           $("#successAlert").removeAttr("hidden");
@@ -122,6 +125,10 @@
     });
     function removeJWT(){
       localStorage.removeItem("token");
+    }
+    function passOID(oid){
+        localStorage.setItem("classId", oid);
+        return true;
     }
   </script>
     </body>
