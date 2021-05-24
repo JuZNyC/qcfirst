@@ -8,7 +8,7 @@ function getData(){
     const dept = $("#departmentsDropdown");
     const userQuery = $("#userQuery");
     const resultArea = $("#box-of-results");
-    $.get(`/api/${dept.val()}/courses?courseNum=${userQuery.val()}`)
+    $.get(`/api/${dept.val()}/courses?courseNum=${userQuery.val()}&token=${localStorage.getItem("token")}`)
     .done((data) =>{
         resultArea.empty();
         if(data){

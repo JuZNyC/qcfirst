@@ -5,8 +5,9 @@ const bcrypt = require("bcryptjs");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const User = require('./model/user');
-const Class = require('./model/class')
-const sideTools = require('./tools')
+const Class = require('./model/class');
+const Query = require('./model/query')
+const sideTools = require('./tools');
 const jwt = require('jsonwebtoken');
 const expressSanitizer = require('express-sanitizer');
 require('dotenv').config()
@@ -297,6 +298,9 @@ app.get('/api/departments', async (req, res) =>{
 app.get('/api/:department/courses', async (req, res) =>{
   var courseNum = req.sanitize(req.query.courseNum);
   var dept = req.params.department;
+  var token = req.query.token;
+  var user = jwt.verify(token, process.env.JWT_SECRET);
+  var id = user.id;
   // If we have a search parameter:
   if(courseNum){
     // Check if it's a number, and if so send back that course
@@ -306,8 +310,13 @@ app.get('/api/:department/courses', async (req, res) =>{
         $and:[
           {department:dept},
           {number: courseNum}
-        ]})
-        res.json(course);
+      ]})
+      var query = new Query({
+        user: id,
+        query: `{department: ${dept}, courseNum: ${courseNum}}`,
+        result: course
+      })
+      res.json(course);
     }
     // If it's not a number, look for courses of a similar name
     else{
@@ -316,6 +325,11 @@ app.get('/api/:department/courses', async (req, res) =>{
           {department:dept},
           {name: new RegExp(courseNum, "i")}
         ]})
+        var query = new Query({
+          user: id,
+          query: `{department: ${dept}, courseName: ${courseNum}}`,
+          result: course
+        })
         res.json(course);    
       }
   }
@@ -324,6 +338,11 @@ app.get('/api/:department/courses', async (req, res) =>{
     var course = await Class.find({
       department:dept
     });
+    var query = new Query({
+      user: id,
+      query: `{department: ${dept}, courseName: nothing}`,
+      result: course
+    })
     res.json(course);
   }
 })
