@@ -314,8 +314,9 @@ app.get('/api/:department/courses', async (req, res) =>{
       var query = new Query({
         user: id,
         query: `{department: ${dept}, courseNum: ${courseNum}}`,
-        result: course
-      })
+        result: JSON.stringify(course)
+      });
+      var savedqry = await query.save();
       res.json(course);
     }
     // If it's not a number, look for courses of a similar name
@@ -328,8 +329,9 @@ app.get('/api/:department/courses', async (req, res) =>{
         var query = new Query({
           user: id,
           query: `{department: ${dept}, courseName: ${courseNum}}`,
-          result: course
-        })
+          result: JSON.stringify(course)
+        });
+        var savedqry = await query.save();
         res.json(course);    
       }
   }
@@ -340,9 +342,10 @@ app.get('/api/:department/courses', async (req, res) =>{
     });
     var query = new Query({
       user: id,
-      query: `{department: ${dept}, courseName: nothing}`,
-      result: course
-    })
+      query: `{department: ${dept}, courseName/Id: (n/a)}`,
+      result: JSON.stringify(course)
+    });
+    var savedqry = await query.save();
     res.json(course);
   }
 })
