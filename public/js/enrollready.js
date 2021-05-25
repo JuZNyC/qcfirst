@@ -20,7 +20,7 @@ $(document).ready(()=>{
             comDays = comDays.slice(0, -1);
             var newFrom = toAMPM(data.schedule.from);
             var newTo = toAMPM(data.schedule.to)
-            console.log(`${data.schedule.from} - ${data.schedule.to}`);
+            // console.log(`${data.schedule.from} - ${data.schedule.to}`);
             $("#className").attr("placeholder", data.name);
             $("#classCapacity").attr("placeholder", `${data.roster.length}/${data.capacity}`);
             $("#enrmntDate").attr("placeholder", new Date(data.enrollmentDeadline).toDateString());

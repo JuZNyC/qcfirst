@@ -49,12 +49,12 @@ $(document).ready(()=>{
                 text:val.name,
                 onclick:`return passOID('${val._id}')`
             });
-            console.log(`new link: ${newLink}`)
+            // console.log(`new link: ${newLink}`)
             menu.append(newLink);
         })
         }
         else{
-            console.log(`No data returned, appending new thing`);
+            // console.log(`No data returned, appending new thing`);
             var newLink = $('<a>',{
                 class:'dropdown-item',
                 href: "#",

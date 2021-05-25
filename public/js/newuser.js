@@ -56,11 +56,11 @@ function checkForm(){
             TeacherStudent:TeacherStudent
         })
         .done((data)=>{
-            console.log(data.status)
+            // console.log(data.status)
             if(data.status == 'ok/redirect'){
                 localStorage.setItem('fromRedirect', 'Created a new user');
                 window.location.replace(data.url);
-                console.log(localStorage.getItem("fromRedirect"));
+                // console.log(localStorage.getItem("fromRedirect"));
             }
         else if(data.status == 'error'){
                 alert(data.error)
@@ -80,7 +80,7 @@ document.getElementById("regForm").addEventListener("submit", function(event) {
  function handleError(elmt, err){
      elmt.classList.remove("success");
      elmt.classList.add("error");
-     console.log(elmt.nextSibling);
+    //  console.log(elmt.nextSibling);
      $(elmt).next().removeClass("success");
      $(elmt).next().addClass("error");
      $(elmt).next().text(err);

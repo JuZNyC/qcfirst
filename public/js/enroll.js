@@ -6,7 +6,6 @@ function enroll(){
   .done((data) =>{
     if(data.status == 'ok/redirect'){
       localStorage.setItem('fromRedirectSuccess', 'Enrolled in a class');
-      console.log(data);
       localStorage.removeItem('classId');
       window.location.replace(data.url);
     }

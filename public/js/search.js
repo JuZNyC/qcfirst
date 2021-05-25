@@ -36,7 +36,7 @@ function getData(){
 }
 
 function passOID(oid){
-    console.log("hello")
+    // console.log("hello")
     localStorage.setItem("classId", oid);
     return true;
 }

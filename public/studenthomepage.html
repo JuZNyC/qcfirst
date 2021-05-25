@@ -47,7 +47,7 @@
     </div>
 
     <div class="container text-center row-cols-md-auto">
-            <p  id="enrollmentDeadline">Your enrollment deadline is:<br><span id="enrolmentDate">01/01/21</span></p>
+            <p  id="enrollmentDeadline">Todays Date Is:<br><span id="enrolmentDate"></span></p>
     </div>
     <!-- Search and display modified from: https://www.bootdey.com/snippets/view/Search-Results -->
     <div class="container bootstrap snippets bootdey">
@@ -84,6 +84,7 @@
         if(localStorage.getItem("token") != null){
             $("#navbarNavAltMarkup").append('<a class="nav-item nav-link active" href="/" onclick="return removeJWT()"><strong>Logout</strong></a>');
         }
+        $("#enrolmentDate").text(new Date().toDateString())
         $.get('/api/departments')
         .done((data) =>{
             if(data){
