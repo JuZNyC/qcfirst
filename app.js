@@ -17,8 +17,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressSanitizer());
 
-
-
 // Based on https://www.youtube.com/watch?v=b91XgdyX-SM
 app.post('/api/createUser', async (req, res) =>{
     try {
