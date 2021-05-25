@@ -13,7 +13,7 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous"></script>      
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-        <script src="./js/validateAccess.js"></script>
+        <script src="./js/validateaccess.js"></script>
     </head>
     <body>
       
@@ -26,8 +26,8 @@
               <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <a class="nav-item nav-link" href="facultyHomepage.html" style="margin-left: 60px"> <strong>Home</strong></a>
-              <a class="nav-item nav-link active" href="classInfo.html"><strong>Class Info</strong></a>
+              <a class="nav-item nav-link" href="facultyhomepage.html" style="margin-left: 60px"> <strong>Home</strong></a>
+              <a class="nav-item nav-link active" href="classinfo.html"><strong>Class Info</strong></a>
               <a class="nav-item nav-link active" href="admin.html" style="margin-left: 60px"> <strong>Admin</strong> <span class="sr-only">(current)</span> </a>
           </div>
       </nav>
@@ -85,7 +85,7 @@
                     var newResult = $('<div>', {class:"search-result"})
                     .append($('<h3>')
                     .append($('<a>',{
-                        href:`/classInfo.html`,
+                        href:`/classinfo.html`,
                         text: `${val.number}`,
                         onclick: `return passOID('${val._id}')`
                     })))

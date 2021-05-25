@@ -13,7 +13,6 @@ $(document).ready(()=>{
         $("#cid").val(localStorage.getItem("classId"));
         $.get(`/api/course?classId=${localStorage.getItem("classId")}`)
         .done((data)=>{
-            // localStorage.removeItem("classId");
             var comDays = "";
             $.each(data.schedule.days, (idx, val) =>{
                 comDays = comDays.concat(`${dayShort[val]}/`);

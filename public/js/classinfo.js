@@ -45,7 +45,7 @@ $(document).ready(()=>{
             $.each(data, (idx, val) =>{
             var newLink = $('<a>',{
                 class:'dropdown-item',
-                href:`/classInfo.html`,
+                href:`/classinfo.html`,
                 text:val.name,
                 onclick:`return passOID('${val._id}')`
             });

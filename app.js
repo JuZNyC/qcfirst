@@ -75,7 +75,7 @@ app.post('/api/createClass', async (req, res) =>{
     if(user.userType == 'faculty'){
       var savedClass = await course.save();
       console.log("course created");
-      res.json({status: 'ok/redirect', url: '/facultyHomepage.html'});
+      res.json({status: 'ok/redirect', url: '/facultyhomepage.html'});
     }
   }
   catch (error) {
@@ -95,11 +95,11 @@ app.post('/api/createClass', async (req, res) =>{
 //Users cannot access pages unless loged in 
 app.post('/api/validateAccess', async (req, res) => {
   const accessLevels = {
-    '/studentHomepage.html': 'student',
+    '/studenthomepage.html': 'student',
     '/enroll.html': 'student',
-    '/facultyHomepage.html': 'faculty',
-    '/createAClass.html': 'faculty',
-    '/classInfo.html': 'faculty'
+    '/facultyhomepage.html': 'faculty',
+    '/createaclass.html': 'faculty',
+    '/classinfo.html': 'faculty'
   };
   var path = new URL(req.headers.referer).pathname
   try{
@@ -127,10 +127,10 @@ app.post("/", async (req, res) =>{
 
   // The verified and decoded JWT is used to determine where to direct the loged in user
   if(user.userType == 'faculty'){
-    return res.status(200).send({result: 'redirect', url:'/facultyHomepage.html'});
+    return res.status(200).send({result: 'redirect', url:'/facultyhomepage.html'});
   }
   else if (user.userType == 'student'){
-    return res.status(200).send({result: 'redirect', url:'/studentHomepage.html'});
+    return res.status(200).send({result: 'redirect', url:'/studenthomepage.html'});
   }
   else{
     return res.status(401).send({error: "Something is wrong"});
@@ -248,7 +248,7 @@ app.post('/api/enroll', async (req, res) =>{
     return res.json({
       status:'ok/redirect',
       details: 'Succesfully registered for a class',
-      url: '/studentHomepage.html'
+      url: '/studenthomepage.html'
     });
   }
   catch(error){
@@ -382,7 +382,7 @@ app.delete('/api/:courseId/deleteCourse/:sem', async(req, res) => {
         res.json({
           status:'ok/redirect',
           details: 'Successfully deleted a class',
-          url:'/facultyHomepage.html'
+          url:'/facultyhomepage.html'
         })
       }
     });
@@ -392,7 +392,7 @@ app.delete('/api/:courseId/deleteCourse/:sem', async(req, res) => {
     res.json({
       status:'error',
       details:'Something went wrong while deleteing',
-      url:'/facultyHomepage.html'
+      url:'/facultyhomepage.html'
     })
   }
 })

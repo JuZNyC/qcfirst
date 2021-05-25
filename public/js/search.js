@@ -4,7 +4,7 @@ document.getElementById("searchBox").addEventListener("submit", (event) =>{
 });
 
 function getData(){
-    const href = window.location.pathname == '/facultyHomepage.html' ? 'classInfo.html' : 'enroll.html';
+    const href = window.location.pathname == '/facultyhomepage.html' ? 'classinfo.html' : 'enroll.html';
     const dept = $("#departmentsDropdown");
     const userQuery = $("#userQuery");
     const resultArea = $("#box-of-results");

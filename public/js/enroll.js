@@ -13,7 +13,7 @@ function enroll(){
     else if(data.status == 'error'){
       localStorage.setItem('fromRedirectError', data.details);
       localStorage.removeItem('classId');
-      window.location.replace('/studentHomepage.html')
+      window.location.replace('/studenthomepage.html')
     }
   })
   .fail((error) =>{
