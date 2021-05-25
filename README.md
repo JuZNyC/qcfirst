@@ -26,8 +26,8 @@ Eli Szafranski worked on classInfo, enroll, CreateAClass, facultyHomepage, and s
 ## Features
 - [Creating and storing new users](https://qcfirst.355project.repl.co/newUser.html)
 - [Validation of login credentials](https://qcfirst.355project.repl.co/)
-- [Create and Remove classes](https://qcfirst.355project.repl.co/facultyHomepage.html)
-- [Ability for students to search for and enroll in classes](https://qcfirst.355project.repl.co/studentHomepage.html)
+- [Create and Remove classes](https://qcfirst.355project.repl.co/facultyhomepage.html)
+- [Ability for students to search for and enroll in classes](https://qcfirst.355project.repl.co/studenthomepage.html)
 
 ## Front-end
 Bootstrap was used to make a website that dyanmically changed with screen size <br />
