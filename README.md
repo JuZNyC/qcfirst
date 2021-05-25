@@ -6,12 +6,12 @@ and Students plan and make their schedules for classes. Cunyfirst is clunky and<
 unoptimized. We want to streamline the experience especially when it comes to devices<br />
 that are not desktops.
 
-
 ## Resources and Technology used
 - Figma
-- React.js
 - MongoDB
 - Node.js
+- Express.js
+- EJS
 
 ## Deliverable 2 update
 Jun Zheng worked on the index, newUser, and lostUserPass<br />
